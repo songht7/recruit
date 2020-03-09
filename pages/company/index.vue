@@ -12,7 +12,7 @@
 	export default {
 		data() {
 			return {
-				title: '职位'
+				title: '人力资源公司'
 			}
 		},
 		onLoad() {
@@ -20,7 +20,7 @@
 		},
 		onShow() {
 			var that = this;
-			that.$store.dispatch("cheack_page", 0);
+			that.$store.dispatch("cheack_page", 1);
 		},
 		methods: {
 
