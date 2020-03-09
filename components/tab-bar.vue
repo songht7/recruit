@@ -156,7 +156,4 @@
 		color: #008CEE;
 	}
 
-	.tab-bk-company.tab_bat_active .tab_name {
-		color: #ffffff;
-	}
 </style>

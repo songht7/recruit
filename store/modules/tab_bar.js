@@ -1,3 +1,4 @@
+const cname_default = "人力资源公司";
 const nav_default = [{
 		name: '职位',
 		name_code: 'index',
@@ -7,7 +8,7 @@ const nav_default = [{
 		flex_dir: "flex-column" //flex-row flex-column
 	},
 	{
-		name: '人力资源公司',
+		name: cname_default,
 		name_code: 'company',
 		iconColor: "",
 		link: "/pages/company/index",
@@ -22,12 +23,12 @@ const nav_default = [{
 		icon: 'rentou',
 		flex_dir: "flex-column"
 	}
-
-]
+];
 export default {
 	state: {
 		footer_nav: nav_default,
 		now_page_index: '',
+		companyName: cname_default
 	},
 	mutations: {
 		change_nav_list(state, data) {
@@ -35,11 +36,15 @@ export default {
 		},
 		change_page(state, index) {
 			state.now_page_index = index;
+		},
+		set_company_name(state, val) {
+			state.companyName = val;
 		}
 	},
 	actions: {
 		menu_default(ctx) {
-			let menu_list = nav_default
+			nav_default[1]["name"] = ctx.state.companyName;
+			let menu_list = nav_default;
 			ctx.commit("change_nav_list", menu_list)
 		},
 		menu_type_1(ctx) {

@@ -131,14 +131,7 @@ const store = new Vuex.Store({
 			})
 		},
 		cheack_page(ctx, index) {
-			if (ctx.state.user.userInfo && ctx.state.user.userInfo.id) {
-				ctx.commit("change_page", index)
-			} else {
-				ctx.commit("change_page", 0)
-				// uni.navigateTo({
-				// 	url: "/pages/index/index"
-				// })
-			}
+			ctx.commit("change_page", index)
 		},
 		goback(ctx, url) {
 			if (url) {
