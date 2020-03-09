@@ -5,12 +5,7 @@
 			"style": {
 				"navigationBarTitleText": "职位",
 				"enablePullDownRefresh": true,
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent"
-					}
-				}
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/company/index",
