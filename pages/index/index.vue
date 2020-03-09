@@ -1,20 +1,26 @@
 <template>
 	<view class="content">
-		<view id="Header">
-			<view class="title">
-				{{title}}
+		<block>
+			<view id="Header">
+				<view class="title">
+					{{title}}
+				</view>
+				<view class="search-box">
+					<input class="search-input" v-show="searchShow" :focus="focus" @blur="getData('keyword')" type="text" v-model="keyword"
+					 placeholder="输入搜索关键词" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
+					<uni-icons type="fangdajing1" :size="32" color="#fff" @click="searchBtn"></uni-icons>
+				</view>
 			</view>
-			<view class="search-box">
-				<input class="search-input" v-show="searchShow" :focus="focus" @blur="getData('keyword')" type="text" v-model="keyword"
-				 placeholder="输入搜索关键词" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
-				<uni-icons type="fangdajing1" :size="32" color="#fff" @click="searchBtn"></uni-icons>
-			</view>
-		</view>
+		</block>
+		<block>
+			<job-list></job-list>
+		</block>
 		<tab-bar></tab-bar>
 	</view>
 </template>
 
 <script>
+	import JobList from '@/components/job-list.vue'
 	export default {
 		data() {
 			return {
@@ -23,6 +29,9 @@
 				searchShow: false,
 				focus: false
 			}
+		},
+		components: {
+			JobList
 		},
 		onLoad() {
 
@@ -38,7 +47,7 @@
 			getData(type) {
 				var that = this;
 				console.log(that.keyword);
-				if(type=='keyword'&&that.keyword==""){
+				if (type == 'keyword' && that.keyword == "") {
 					that.searchShow = false;
 					that.focus = false;
 				}
@@ -61,6 +70,7 @@
 		justify-content: space-around;
 		align-items: flex-start;
 		align-content: center;
+		line-height: 2;
 	}
 
 	.title {
