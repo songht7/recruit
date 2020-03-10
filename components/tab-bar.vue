@@ -3,7 +3,7 @@
 		<view class="tab_main">
 			<view :class="['tab_item','tab-'+item.name_code]" v-for="(item,index) in footer_nav" :key="index" :style="'width:'+item_width">
 				<view :class="['tab_block','tab-bk-'+item.name_code,item.flex_dir,index==now_index?'tab_bat_active':'',tabHaveMsg?'tab-haveMsg':'']"
-				 @click="navto(index,item.link)">
+				 @click="navto(index,item.link,item.name_code)">
 					<uni-icons :type="item.icon" v-if="item.icon" :size="32" :color="iconColor(item,index)"></uni-icons>
 					<view class="tab_name">
 						{{item.name}}
@@ -38,7 +38,7 @@
 						break;
 				}
 			},
-			navto(index, url) {
+			navto(index, url, name_code) {
 				this.$store.commit("change_page", index)
 				uni.redirectTo({
 					url: url
@@ -155,5 +155,4 @@
 	.tab_bat_active .tab_name {
 		color: #008CEE;
 	}
-
 </style>

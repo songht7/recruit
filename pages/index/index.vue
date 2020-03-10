@@ -27,6 +27,7 @@
 		data() {
 			return {
 				title: '职位',
+				pageType: '',
 				keyword: '',
 				searchShow: false,
 				focus: false,
@@ -35,8 +36,8 @@
 					name: "市场专员",
 					price: "8-13K",
 					overview: "上海XXX事务所",
-					city:"上海",
-					years:"1-3年",
+					city: "上海",
+					years: "1-3年",
 					edu: "学历不限",
 					comany_name: "上海XX中介公司"
 				}, {
@@ -44,8 +45,8 @@
 					name: "市场专员2222",
 					price: "8-13K",
 					overview: "上海XXX事务所2",
-					city:"上海",
-					years:"1-3年",
+					city: "上海",
+					years: "1-3年",
 					edu: "学历不限",
 					comany_name: "上海XX中介公司"
 				}]
@@ -55,13 +56,12 @@
 			JobList,
 			FilterBox
 		},
-		onLoad() {
-
+		onLoad(option) {
+			var that = this;
+			console.log("onLoad")
 		},
 		onShow() {
 			var that = this;
-			//that.$store.dispatch("menu_type_1");
-			//that.$store.commit("set_company_name", "A公司");
 			that.$store.dispatch("menu_default");
 			that.$store.dispatch("cheack_page", 0);
 		},
