@@ -78,6 +78,12 @@
 				var that = this;
 				that.searchShow = !that.searchShow;
 				that.focus = that.searchShow;
+			},
+			onBlur() {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
 			}
 		}
 	}
