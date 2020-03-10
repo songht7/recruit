@@ -20,6 +20,18 @@
 				}
 			}
 		}, {
+			"path": "pages/company/detail",
+			"style": {
+				"navigationBarTitleText": "详细",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, {
 			"path": "pages/user/index",
 			"style": {
 				"navigationBarTitleText": "我的",

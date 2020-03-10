@@ -13,12 +13,10 @@
 </script>
 
 <style>
-	/*每个页面公共css */
-	@import "./common/uni.css";
-
 	/*https://www.iconfont.cn
 	*login weibo
 	*/
-	/* @import "//at.alicdn.com/t/font_1679963_174sfasf7yp.css; */
 	@import "./common/fonts/iconfont.css";
+	/*每个页面公共css */
+	@import "./common/uni.css";
 </style>

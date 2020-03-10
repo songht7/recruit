@@ -2,7 +2,7 @@
 	<view class="job-list">
 		<block v-for="(obj,k) in list" :key="k">
 			<view class="job-block">
-				<view class="job-main">
+				<view class="job-main" @click="onClick(obj.id)">
 					<view class="job-top">
 						<view class="job-name">{{obj.name}}</view>
 						<view class="job-price">{{obj.price}}</view>
@@ -46,7 +46,13 @@
 			return {};
 		},
 		computed: {},
-		methods: {}
+		methods: {
+			onClick(id){
+				uni.navigateTo({
+				    url: `/pages/company/detail?id=${id}`
+				});
+			}
+		}
 	}
 </script>
 
