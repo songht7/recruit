@@ -2,9 +2,7 @@
 	<view class="content">
 		<block>
 			<view id="Header">
-				<view class="title">
-					{{title}}
-				</view>
+				<view class="title">{{title}}</view>
 				<view class="search-box">
 					<input class="search-input" v-show="searchShow" :focus="focus" @blur="getData('keyword')" type="text" v-model="keyword"
 					 placeholder="输入搜索关键词" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
@@ -13,7 +11,10 @@
 			</view>
 		</block>
 		<block>
-			<job-list></job-list>
+			<filter-box></filter-box>
+		</block>
+		<block>
+			<job-list :list="jobList"></job-list>
 		</block>
 		<tab-bar></tab-bar>
 	</view>
@@ -21,17 +22,38 @@
 
 <script>
 	import JobList from '@/components/job-list.vue'
+	import FilterBox from '@/components/filter-box.vue'
 	export default {
 		data() {
 			return {
 				title: '职位',
 				keyword: '',
 				searchShow: false,
-				focus: false
+				focus: false,
+				jobList: [{
+					id: 1,
+					name: "市场专员",
+					price: "8-13K",
+					overview: "上海XXX事务所",
+					city:"上海",
+					years:"1-3年",
+					edu: "学历不限",
+					comany_name: "上海XX中介公司"
+				}, {
+					id: 2,
+					name: "市场专员2222",
+					price: "8-13K",
+					overview: "上海XXX事务所2",
+					city:"上海",
+					years:"1-3年",
+					edu: "学历不限",
+					comany_name: "上海XX中介公司"
+				}]
 			}
 		},
 		components: {
-			JobList
+			JobList,
+			FilterBox
 		},
 		onLoad() {
 
@@ -68,13 +90,13 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-around;
-		align-items: flex-start;
+		align-items: center;
 		align-content: center;
 		line-height: 2;
 	}
 
 	.title {
-		font-size: 40rpx;
+		font-size: 50rpx;
 		color: #FFFFFF;
 		width: 50%;
 	}
