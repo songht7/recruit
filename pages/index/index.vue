@@ -16,10 +16,7 @@
 		onLoad(option) {
 			var that = this;
 			console.log("onLoad")
-			var companyID = option.cid ? option.cid : that.$store.state.companyID;
-			if (companyID) {
-				that.$store.state.companyID = companyID;
-			}
+			that.$store.dispatch("savePram",option)
 		},
 		onShow() {
 			console.log("onShow")

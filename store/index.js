@@ -92,6 +92,12 @@ const store = new Vuex.Store({
 				}
 			})
 		},
+		savePram(ctx, pram) {
+			var companyID = pram.cid ? pram.cid : ctx.state.companyID;
+			if (companyID) {
+				ctx.state.companyID = companyID;
+			}
+		},
 		cheack_user(ctx) {
 			var user = "";
 			var _openid = "";

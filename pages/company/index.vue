@@ -16,10 +16,10 @@
 		onLoad(option) {
 			var that = this;
 			console.log("onLoad")
-			var companyID = option.cid ? option.cid : that.$store.state.companyID;
+			that.$store.dispatch("savePram", option)
+			var companyID = that.$store.state.companyID;
 			if (companyID) {
 				that.title = "A公司";
-				that.$store.state.companyID = companyID;
 				that.$store.commit("set_company_name", "A公司");
 			} else {
 				that.title = "人力资源公司";
