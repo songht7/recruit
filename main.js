@@ -8,6 +8,10 @@ Vue.prototype.$store = store;
 /*全局组件引用*/
 import uniIcons from "./components/uni-icons/uni-icons.vue"
 Vue.component("uni-icons", uniIcons)
+
+// import JobTemp from "./pages/job-temp/job.vue"
+// Vue.component("job-temp", JobTemp)
+
 import tabBar from "./components/tab-bar.vue"
 Vue.component("tab-bar", tabBar)
 

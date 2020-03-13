@@ -2,8 +2,8 @@
 	<view class="search-header" id="Header">
 		<view class="title">{{title}}</view>
 		<view class="search-box">
-			<input class="search-input" v-show="searchShow" :focus="focus" @blur="onBlur" type="text" v-model="keyword"
-			 placeholder="输入搜索关键词" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
+			<input class="search-input" v-show="searchShow" :focus="focus" @blur="onBlur" type="text" :value="keywords"
+			 placeholder="输入搜索关键词1" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
 			<uni-icons type="fangdajing1" :size="32" color="#fff" @click="searchBtn"></uni-icons>
 		</view>
 	</view>
@@ -12,13 +12,13 @@
 
 <script>
 	export default {
-		name: 'JobList',
+		name: 'SearchHeader',
 		props: {
 			title: {
 				type: String,
 				default: ""
 			},
-			keyword: {
+			keywords: {
 				type: String,
 				default: ""
 			}
@@ -26,18 +26,24 @@
 		data() {
 			return {
 				searchShow: false,
-				focus: false
+				focus: false,
+				keywd: ""
 			};
 		},
 		computed: {},
 		methods: {
-			onBlur() {
-				this.$emit("getData")
+			onBlur(e) {
+				this.keywd = e.target.value;
+				this.$emit("onSearchBlur", e.target.value)
 			},
 			searchBtn() {
 				var that = this;
-				that.searchShow = !that.searchShow;
-				that.focus = that.searchShow;
+				if (that.keywd) {
+					that.searchShow = true;
+				} else {
+					that.searchShow = !that.searchShow;
+				}
+				that.focus = false;
 			}
 		}
 	}

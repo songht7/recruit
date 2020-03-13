@@ -1,9 +1,10 @@
 const cname_default = "人力资源公司";
+const links=["/pages/index/index","/pages/company/index","/pages/user/index"]
 const nav_default = [{
 		name: '职位',
 		name_code: 'index',
 		iconColor: "",
-		link: "/pages/index/index",
+		link: links[0],
 		icon: 'qiwangzhiwei',
 		flex_dir: "flex-column" //flex-row flex-column
 	},
@@ -11,7 +12,7 @@ const nav_default = [{
 		name: cname_default,
 		name_code: 'company',
 		iconColor: "",
-		link: "/pages/company/index",
+		link: links[1],
 		icon: 'qiye',
 		flex_dir: "flex-column"
 	},
@@ -19,7 +20,7 @@ const nav_default = [{
 		name: '我的',
 		name_code: 'user',
 		iconColor: "",
-		link: "/pages/user/index",
+		link: links[2],
 		icon: 'rentou',
 		flex_dir: "flex-column"
 	}
@@ -44,6 +45,13 @@ export default {
 	actions: {
 		menu_default(ctx) {
 			nav_default[1]["name"] = ctx.state.companyName;
+			let cid = ctx.rootState.companyID;
+			console.log("companyID：", cid)
+			if (cid) {
+				nav_default[0]["link"] = links[0] + "?cid=" + cid;
+				nav_default[1]["link"] = links[1] + "?cid=" + cid;
+				nav_default[2]["link"] = links[2] + "?cid=" + cid;
+			}
 			let menu_list = nav_default;
 			ctx.commit("change_nav_list", menu_list)
 		},
