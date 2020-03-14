@@ -3,7 +3,7 @@
 		<view class="title">{{title}}</view>
 		<view class="search-box">
 			<input class="search-input" v-show="searchShow" :focus="focus" @blur="onBlur" type="text" :value="keywords"
-			 placeholder="输入搜索关键词1" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
+			 placeholder="输入搜索关键词" placeholder-style="color:#fff;font-size:32rpx" confirm-type="search" />
 			<uni-icons type="fangdajing1" :size="32" color="#fff" @click="searchBtn"></uni-icons>
 		</view>
 	</view>

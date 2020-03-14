@@ -20,35 +20,16 @@
 	export default {
 		name: 'JobTemp',
 		props: {
-			title: {
-				type: String,
-				default: ""
-			}
+			pageTitle: ""
 		},
 		data() {
 			return {
+				title: "职位",
+				comany_id: "",
 				formData: {
 					keyword: ''
 				},
-				jobList: [{
-					id: 1,
-					name: "市场专员",
-					price: "8-13K",
-					overview: "上海XXX事务所",
-					city: "上海",
-					years: "1-3年",
-					edu: "学历不限",
-					comany_name: "上海XX中介公司"
-				}, {
-					id: 2,
-					name: "市场专员2222",
-					price: "8-13K",
-					overview: "上海XXX事务所2",
-					city: "上海",
-					years: "1-3年",
-					edu: "学历不限",
-					comany_name: "上海XX中介公司"
-				}]
+				jobList: []
 			}
 		},
 		components: {
@@ -60,9 +41,36 @@
 			getData(type = "") {
 				var that = this;
 				console.log("formData:", that.formData);
-				if (type == 'keyword' && that.keyword == "") {
+				var comany_id = that.$store.state.companyID;
+				that.title = that.pageTitle ? that.pageTitle : "人力资源公司";
+				if (comany_id) {
+					that.title = "A公司";
+					that.$store.commit("set_company_name", "A公司");
+				} else {
+					that.$store.commit("set_company_name", "人力资源公司");
+				}
+				if (type == 'keyword' && that.formData['keyword'] != "") {
 					that.searchShow = false;
 					that.focus = false;
+					that.jobList = [{
+						id: 1,
+						name: "市场专员",
+						price: "8-13K",
+						overview: "上海XXX事务所",
+						city: "上海",
+						years: "1-3年",
+						edu: "学历不限",
+						comany_name: "上海XX中介公司"
+					}, {
+						id: 2,
+						name: "市场专员2222",
+						price: "8-13K",
+						overview: "上海XXX事务所2",
+						city: "上海",
+						years: "1-3年",
+						edu: "学历不限",
+						comany_name: "上海XX中介公司"
+					}]
 				}
 			},
 			onSearchBlur(val = "") {

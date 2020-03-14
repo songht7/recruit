@@ -1,14 +1,12 @@
 <template>
-	<job-temp :title="title"></job-temp>
+	<job-temp ref="JobTemp"></job-temp>
 </template>
 
 <script>
 	import JobTemp from "../job-temp/job.vue"
 	export default {
 		data() {
-			return {
-				title: ""
-			}
+			return {}
 		},
 		components: {
 			JobTemp
@@ -17,21 +15,17 @@
 			var that = this;
 			console.log("onLoad")
 			that.$store.dispatch("savePram", option)
-			var companyID = that.$store.state.companyID;
-			if (companyID) {
-				that.title = "A公司";
-				that.$store.commit("set_company_name", "A公司");
-			} else {
-				that.title = "人力资源公司";
-				that.$store.commit("set_company_name", "人力资源公司");
-			}
-			that.$store.dispatch("menu_default");
-			//that.$store.dispatch("menu_type_1");
-			that.$store.dispatch("cheack_page", 1);
 		},
 		onShow() {
 			console.log("onShow")
 			var that = this;
+			that.$store.dispatch("menu_default");
+			//that.$store.dispatch("menu_type_1");
+			that.$store.dispatch("cheack_page", 1);
+		},
+		onReady() {
+			var that = this;
+			that.$refs.JobTemp.getData();
 		},
 		methods: {}
 	}
