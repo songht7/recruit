@@ -231,6 +231,7 @@
 				that.formData.province = cityPicker[0];
 				that.formData.city = cityPicker[1] == '市辖区' ? cityPicker[0] : cityPicker[1];
 				that.formData.area = cityPicker[2];
+				that.getData()
 				console.log(e)
 			},
 			onCancel(e) {
