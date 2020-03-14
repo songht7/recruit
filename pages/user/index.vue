@@ -29,6 +29,16 @@
 				</view>
 			</view>
 		</view>
+		<view class="user-main">
+			<view class="record">
+				<view class="record-val">附件简历</view>
+				<view class="record-info">未上传</view>
+			</view>
+			<view class="record">
+				<view class="record-val record-apply">申请记录</view>
+				<view class="record-info">xxxxxxxx</view>
+			</view>
+		</view>
 		<tab-bar></tab-bar>
 	</view>
 </template>
@@ -49,9 +59,9 @@
 			that.$store.dispatch("cheack_page", 2);
 		},
 		methods: {
-			userBinding(){
+			userBinding() {
 				uni.navigateTo({
-				    url: '/pages/user/login'
+					url: '/pages/user/login'
 				})
 			},
 			userBuild() {},
@@ -141,5 +151,57 @@
 	.count-numb {
 		font-size: 50rpx;
 	}
-	
+
+	.user-main {
+		padding: 30rpx;
+	}
+
+	.record {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+		align-items: center;
+		align-content: center;
+		position: relative;
+		padding: 20rpx 0;
+		border-bottom: 2rpx solid #d9d9d9;
+	}
+
+	.record:last-child {
+		border-bottom: none
+	}
+
+	.record:after {
+		font-family: "uniicons" !important;
+		content: "\e600";
+		color: inherit;
+		height: inherit;
+		position: absolute;
+		right: 0;
+	}
+
+	.record-val {
+		font-size: 45rpx;
+		color: #2d2d2d;
+	}
+
+	.record-val:before {
+		font-family: "uniicons" !important;
+		content: "\e604";
+		padding-right: 8rpx;
+		color: inherit;
+		height: inherit;
+
+	}
+
+	.record-apply:before {
+		content: "\e655";
+	}
+
+	.record-info {
+		text-align: right;
+		font-size: 40rpx;
+		color: #9fa0a0;
+		padding-right: 50rpx;
+	}
 </style>

@@ -24,26 +24,37 @@
 		<view class="detail">
 			<rich-text class="job-detail" :nodes="data"></rich-text>
 		</view>
+		<fix-button gobackShow="false">
+			<view :class="['fbtns','fbtns-clr-full ','fbtn-full',reumeIsSend?'reume-send':'']" @click="reumeSend">{{reumeIsSend?"简历已提交":"投递简历"}}</view>
+		</fix-button>
 	</view>
 </template>
 
 <script>
+	import fixButton from '@/components/fix-button.vue'
 	export default {
 		data() {
 			return {
 				title: '策划',
 				portrait: !false,
-				data: "<p>detail</p>"
+				data: "<p>detail</p>",
+				reumeIsSend: false
 			}
 		},
-		components: {},
+		components: {
+			fixButton
+		},
 		onLoad() {
 
 		},
 		onShow() {
 			var that = this;
 		},
-		methods: {}
+		methods: {
+			reumeSend() {
+				this.reumeIsSend = !this.reumeIsSend
+			}
+		}
 	}
 </script>
 
@@ -149,5 +160,11 @@
 
 	.detail {
 		padding-bottom: 50rpx;
+	}
+
+	.reume-send {
+		background-color: #727272;
+		border-color: #727272;
+		color: #fff;
 	}
 </style>
