@@ -3,11 +3,11 @@
 		<view class="filter-content">
 			<view class="filter-block filter-left">
 				<view :class="['filter-btn','active']">推荐</view>
-				<view :class="['filter-btn']">最新</view>
+				<!-- <view :class="['filter-btn']">最新</view> -->
 			</view>
 			<view class="filter-block filter-right">
-				<view class="filter-btn">上海</view>
-				<view class="filter-btn">筛选</view>
+				<view class="filter-btn" @click="$emit('filterCity')">{{city}}</view>
+				<view class="filter-btn" @click="$emit('filterShow','right')">筛选</view>
 			</view>
 		</view>
 	</view>
@@ -24,6 +24,10 @@
 					return {}
 				}
 			},
+			city: {
+				type: String,
+				default: "上海"
+			},
 			list: {
 				type: Array,
 				default () {
@@ -32,16 +36,22 @@
 			}
 		},
 		data() {
-			return {};
+			return {
+			};
 		},
-		computed: {},
-		methods: {}
+		computed: {
+			
+		},
+		methods: {
+			
+		}
 	}
 </script>
 
 <style scoped>
 	.filter-box {
 		padding: 10rpx 30rpx 20rpx;
+		position: relative;
 	}
 
 	.filter-content {
