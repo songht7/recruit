@@ -1,5 +1,5 @@
 const cname_default = "人力资源公司";
-const links=["/pages/index/index","/pages/company/index","/pages/user/index"]
+const links = ["/pages/index/index", "/pages/company/index", "/pages/user/index"]
 const nav_default = [{
 		name: '职位',
 		name_code: 'index',
@@ -41,6 +41,9 @@ export default {
 		set_company_name(state, val) {
 			state.companyName = val;
 		}
+	},
+	getters:{
+		bar_index:state => state.now_page_index,
 	},
 	actions: {
 		menu_default(ctx) {

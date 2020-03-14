@@ -23,7 +23,8 @@ const store = new Vuex.Store({
 		systemInfo: {},
 		portrait: "",
 		cosConfig: common.Interface.cosConfig,
-		companyID: ""
+		companyID: "",
+		page_index: 0
 	},
 	mutations: {
 		switch_loading(state, status) {

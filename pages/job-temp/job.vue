@@ -43,12 +43,12 @@
 				console.log("formData:", that.formData);
 				var comany_id = that.$store.state.companyID;
 				that.title = that.pageTitle ? that.pageTitle : "人力资源公司";
-				if (comany_id) {
+				var bar_index = that.$store.getters.bar_index.toString();
+				if (comany_id && bar_index == "1") {
+					console.log(comany_id, bar_index)
 					that.title = "A公司";
-					that.$store.commit("set_company_name", "A公司");
-				} else {
-					that.$store.commit("set_company_name", "人力资源公司");
 				}
+				//that.$store.commit("set_company_name", "人力资源公司");
 				if (type == 'keyword' && that.formData['keyword'] != "") {
 					that.searchShow = false;
 					that.focus = false;

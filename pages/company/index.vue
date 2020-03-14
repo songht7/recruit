@@ -15,13 +15,13 @@
 			var that = this;
 			console.log("onLoad")
 			that.$store.dispatch("savePram", option)
+			that.$store.dispatch("menu_default");
+			//that.$store.dispatch("menu_type_1");
+			that.$store.dispatch("cheack_page", 1);
 		},
 		onShow() {
 			console.log("onShow")
 			var that = this;
-			that.$store.dispatch("menu_default");
-			//that.$store.dispatch("menu_type_1");
-			that.$store.dispatch("cheack_page", 1);
 		},
 		onReady() {
 			var that = this;
