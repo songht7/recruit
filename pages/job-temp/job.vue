@@ -80,9 +80,12 @@
 					area: '',
 					keyword: '',
 					company: '',
-					ctg: ''
+					ctg: '',
+					currentPage: 1,
+					pagesize: 10
 				},
 				jobList: [],
+				total: 0,
 				city: "",
 				mode: '',
 				deepLength: 1,
@@ -177,26 +180,19 @@
 				if (type == 'keyword' && that.formData['keyword'] != "") {
 					that.searchShow = false;
 					that.focus = false;
-					that.jobList = [{
-						id: 1,
-						name: "市场专员",
-						price: "8-13K",
-						overview: "上海XXX事务所",
-						city: "上海",
-						years: "1-3年",
-						edu: "学历不限",
-						comany_name: "上海XX中介公司"
-					}, {
-						id: 2,
-						name: "市场专员2222",
-						price: "8-13K",
-						overview: "上海XXX事务所2",
-						city: "上海",
-						years: "1-3年",
-						edu: "学历不限",
-						comany_name: "上海XX中介公司"
-					}]
 				}
+				var parm = {
+					inter: "supports",
+					data: that.formData
+				};
+				parm["fun"] = function(res) {
+					console.log(res)
+					if (res.success) {
+						that.jobList = res.data.list ? res.data.list : [];
+						that.total = res.data.total;
+					}
+				};
+				that.$store.dispatch("getData", parm)
 			},
 			filterSetData(val, index, type) {
 				var that = this;

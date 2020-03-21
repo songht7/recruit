@@ -36,6 +36,8 @@
 		data() {
 			return {
 				title: '策划',
+				id: "",
+				detail:[],
 				portrait: !false,
 				data: "<p>detail</p>",
 				reumeIsSend: false
@@ -44,13 +46,29 @@
 		components: {
 			fixButton
 		},
-		onLoad() {
-
-		},
-		onShow() {
+		onLoad(option) {
 			var that = this;
+			that.id = option.id ? option.id : "";
+			if (that.id) {
+				that.getData();
+			}
 		},
+		onShow() {},
 		methods: {
+			getData() {
+				var that = this;
+				var parm = {
+					inter: "supportDtl",
+					parm: `?id=${that.id}`
+				};
+				parm["fun"] = function(res) {
+					console.log(res)
+					if (res.success) {
+						// that.detail = res.data.list;
+					}
+				};
+				that.$store.dispatch("getData", parm)
+			},
 			reumeSend() {
 				this.reumeIsSend = !this.reumeIsSend
 			}

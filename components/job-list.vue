@@ -1,11 +1,11 @@
 <template>
 	<view class="job-list">
-		<block v-for="(obj,k) in list" :key="k">
+		<block v-if="list" v-for="(obj,k) in list" :key="k">
 			<view class="job-block">
 				<view class="job-main" @click="onClick(obj.id)">
 					<view class="job-top">
 						<view class="job-name">{{obj.name}}</view>
-						<view class="job-price">{{obj.price}}</view>
+						<view class="job-price">{{obj.price?obj.price:''}}</view>
 					</view>
 					<view class="job-middle">
 						<view class="job-overview">{{obj.overview}}</view>
@@ -47,9 +47,9 @@
 		},
 		computed: {},
 		methods: {
-			onClick(id){
+			onClick(id) {
 				uni.navigateTo({
-				    url: `/pages/company/detail?id=${id}`
+					url: `/pages/company/detail?id=${id}`
 				});
 			}
 		}
@@ -79,17 +79,17 @@
 	}
 
 	.job-name {
-		font-size: 50rpx;
+		font-size: 38rpx;
 		color: #000;
 	}
 
 	.job-price {
-		font-size: 42rpx;
+		font-size: 36rpx;
 		color: #3b78ea;
 	}
 
 	.job-overview {
-		font-size: 38rpx;
+		font-size: 30rpx;
 	}
 
 	.job-tags {

@@ -6,7 +6,9 @@
 	import JobTemp from "../job-temp/job.vue"
 	export default {
 		data() {
-			return {}
+			return {
+				enterprise_id: ""
+			}
 		},
 		components: {
 			JobTemp
@@ -14,6 +16,7 @@
 		onLoad(option) {
 			var that = this;
 			console.log("onLoad")
+			that.enterprise_id = option.enterprise_id ? option.enterprise_id : "";
 			that.$store.dispatch("savePram", option)
 			that.$store.dispatch("menu_default");
 			//that.$store.dispatch("menu_type_1");
@@ -25,7 +28,9 @@
 		},
 		onReady() {
 			var that = this;
-			that.$refs.JobTemp.getData();
+			if (that.enterprise_id) {
+				that.$refs.JobTemp.getData();
+			}
 		},
 		methods: {}
 	}
