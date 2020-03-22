@@ -77,7 +77,7 @@
             "disableHostCheck" : true
         },
         "router" : {
-            "mode" : "history"
+            "mode" : "hash"
         },
         "domain" : "job.jobpgroup.com"
     }
