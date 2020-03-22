@@ -78,6 +78,7 @@
         },
         "router" : {
             "mode" : "history"
-        }
+        },
+        "domain" : "job.jobpgroup.com"
     }
 }

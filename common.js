@@ -22,8 +22,8 @@ var api = {
 		}
 	},
 	"dev": {
-		"interface": "http://job.jobpgroup.com", //接口
-		"domain": "http://train.wsshanghai.com",
+		"interface": "https://api-job.jobpgroup.com", //接口
+		"domain": "http://job.jobpgroup.com",
 		"appName": "人力资源",
 		"phoneNumber": "4008200000",
 		"cosConfig": { //`https://plbs-test-1257286922.cos.ap-shanghai.myqcloud.com/...`
