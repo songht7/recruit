@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+var jweixin = require('jweixin-module')
 import tab_bar from "./modules/tab_bar.js"
 import common from "../common.js"
 Vue.use(Vuex)
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
 		systemInfo: {},
 		portrait: "",
 		cosConfig: common.Interface.cosConfig,
+		wxConfig: common.Interface.wxConfig,
 		companyID: "",
 		page_index: 0
 	},
@@ -156,79 +158,34 @@ const store = new Vuex.Store({
 				});
 			}
 		},
-		wxXCXAuth(ctx, type) {
-			var checkType = type;
-			var _wxType = ctx.state.wxType == "mp" ? 'getWeChatInfoMP' : 'weChatAuth';
-			var _wxini = checkType == undefined && ctx.state.openid == '' ? true : false;
-			console.log("_wxini:", _wxini, "   checkType:", checkType)
-			if (_wxini || checkType == "reCheack") {
-				uni.getProvider({
-					service: 'oauth',
-					success: function(res) {
-						console.log("getProvider:", res)
-						console.log("getProvider.indexOf:", ~res.provider.indexOf('weixin'))
-						if (~res.provider.indexOf('weixin')) {
-							uni.login({
-								provider: 'weixin', //登录服务提供商
-								//scopes: 'auth_user', //授权类型，默认 auth_base。支持 auth_base（静默授权）/ auth_user（主动授权） / auth_zhima（芝麻信用）
-								success: function(loginRes) {
-									console.log("wx-login-res:", loginRes)
-									var _code = loginRes.code;
-									if (_code) {
-										var _url = ctx.state.interface.apiurl + ctx.state.interface.addr[_wxType] + '?code=' + _code;
-										console.log("getWeChatInfo-url:", _url)
-										uni.request({
-											url: _url,
-											method: "GET",
-											header: {},
-											success(res) {
-												console.log("getWeChatInfo-success:", res)
-												if (res.data.success && res.data.data.openid) {
-													var _openid = res.data.data.openid;
-													var _token = res.data.data.token ? res.data.data.token : '';
-													var deathline = res.data.data.deathline ? res.data.data.deathline : '';
-													if (_token && deathline) {
-														uni.getStorage({
-															key: "user",
-															success(ress) {
-																let ress_data = ress.data;
-																console.log("-----wxXCXAuth:reset-----")
-																ress_data["token"] = _token;
-																ress_data["deathline"] = deathline;
-																ress_data["openid"] = _openid;
-																uni.setStorage({
-																	key: "user",
-																	data: ress_data,
-																	success() {
-																		if (checkType == 'reCheack') {
-																			ctx.dispatch("cheack_user");
-																		}
-																	}
-																});
-															},
-															fail() {}
-														})
-													}
-													uni.setStorage({
-														key: "openid",
-														data: _openid
-													});
-													ctx.state.openid = _openid;
-												}
-											},
-											fail(err) {
-												console.log("getWeChatInfo-err:", err)
-											},
-											complete() {}
-										})
-									}
-								},
-								fail(f) {},
-								complete() {}
-							});
-						}
-					}
-				});
+		queryString(ctx, value) {
+			const reg = new RegExp(`(^|&)${value}=([^&]*)(&|$)`, 'i')
+			const r = window && window.location.search.substr(1).match(reg)
+			if (r != null) {
+				return unescape(r[2])
+			}
+			return null
+		},
+		wxXCXAuth(ctx) {
+			console.log("--wxXCXAuth--")
+			let redirect_uri = 'http://songht.vicp.net/';
+			let REDIRECT_URI = encodeURIComponent(redirect_uri), //授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
+				scope = "snsapi_userinfo", //snsapi_base，snsapi_userinfo （弹出授权页面，获取更多信息）
+				state = "STATE"; //重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+			var _url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + ctx.state.wxConfig.AppID +
+				'&redirect_uri=' +
+				REDIRECT_URI +
+				'&response_type=code&scope=' + scope + '&state=' + state + '#wechat_redirect';
+			console.log("_url:", _url)
+			//let code = ctx.dispatch("queryString", 'code');
+			const reg = new RegExp(`(^|&)code=([^&]*)(&|$)`, 'i')
+			const r = window && window.location.search.substr(1).match(reg)
+			if (r != null) {
+				console.log("get-wxCode-success")
+				console.log("code:", unescape(r[2]))
+			} else {
+				console.log("get-wxCode-fail")
+				window.location.href = _url;
 			}
 		},
 		checkSession() {

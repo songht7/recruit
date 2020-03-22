@@ -33,7 +33,7 @@ var api = {
 			"SecretKey": ''
 		},
 		"wx": {
-			"AppID": "wxeaf6d3cdbb53e013",
+			"AppID": "wx0d0ff48dbccca9b8",
 			"ast": ""
 		}
 	}
@@ -47,6 +47,7 @@ export default {
 		"cosConfig": api[lks]["cosConfig"],
 		"appName": api[lks]["appName"],
 		"phoneNumber": api[lks]["phoneNumber"],
+		"wxConfig": api[lks]["wx"],
 		"addr": {
 			"getRegion": "/v2/ApiEnum-getRegion.htm", //获取中国地区的接口
 			"screening": "/v4/ApiBase-screening.htm", //筛选条件列表
