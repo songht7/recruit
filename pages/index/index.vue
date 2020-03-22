@@ -14,7 +14,6 @@
 		onLoad(option) {
 			var that = this;
 			console.log("---onLoad----")
-			that.$store.dispatch("wxXCXAuth")
 			that.$store.dispatch("savePram", option)
 			that.$store.dispatch("menu_default");
 			that.$store.dispatch("cheack_page", 0);

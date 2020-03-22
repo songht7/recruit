@@ -168,7 +168,7 @@ const store = new Vuex.Store({
 		},
 		wxXCXAuth(ctx) {
 			console.log("--wxXCXAuth--")
-			let redirect_uri = 'http://songht.vicp.net/';
+			let redirect_uri = window.location.href;
 			let REDIRECT_URI = encodeURIComponent(redirect_uri), //授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
 				scope = "snsapi_userinfo", //snsapi_base，snsapi_userinfo （弹出授权页面，获取更多信息）
 				state = "STATE"; //重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
@@ -176,17 +176,32 @@ const store = new Vuex.Store({
 				'&redirect_uri=' +
 				REDIRECT_URI +
 				'&response_type=code&scope=' + scope + '&state=' + state + '#wechat_redirect';
-			console.log("_url:", _url)
 			//let code = ctx.dispatch("queryString", 'code');
 			const reg = new RegExp(`(^|&)code=([^&]*)(&|$)`, 'i')
 			const r = window && window.location.search.substr(1).match(reg)
 			if (r != null) {
 				console.log("get-wxCode-success")
-				console.log("code:", unescape(r[2]))
+				console.log("code:", code)
+				let code = unescape(r[2])
+				ctx.dispatch("getWeChatInfo", code)
+
 			} else {
 				console.log("get-wxCode-fail")
 				window.location.href = _url;
 			}
+		},
+		getWeChatInfo(ctx, data) {
+			var parm = {
+				inter: "getWeChatInfo",
+				parm: `?code=${data}`
+			};
+			parm["fun"] = function(res) {
+				console.log("getWeChatInfo:", res)
+				if (res.success) {
+
+				}
+			};
+			ctx.dispatch("getData", parm)
 		},
 		checkSession() {
 			/*检查登录状态是否过期*/
