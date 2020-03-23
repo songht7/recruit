@@ -53,7 +53,7 @@ export default {
 			"screening": "/v4/ApiBase-screening.htm", //筛选条件列表
 			
 			"weChatAuth": "/v4/ApiAuth-loginWithWeChatAuthAuthorize.htm", //获取c端用户微信授权后的用户信息?code=1
-			"getWeChatInfo": "/v4/ApiWeChat-getWeChatInfo.htm", //获取微信授权del  ?code=1
+			//"getWeChatInfo": "/v4/ApiWeChat-getWeChatInfo.htm", //获取微信授权del  ?code=1
 			
 			"savePhone": "/v4/ApiAuth-savePhone.htm", //验证手机号码【post】
 			"sendSms": "/v4/ApiSms-sendSms.htm", //获取短信验证码（Tencent渠道）?phone=13564138770

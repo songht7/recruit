@@ -27,13 +27,6 @@
 				}
 			}
 		}, {
-			"path": "pages/user/index",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": true,
-				"navigationStyle": "custom"
-			}
-		}, {
 			"path": "pages/user/login",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -44,6 +37,20 @@
 						"type": "transparent"
 					}
 				}
+			}
+		}, {
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/user/resume",
+			"style": {
+				"navigationBarTitleText": "我的简历",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom"
 			}
 		}
 	],

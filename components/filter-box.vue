@@ -5,7 +5,7 @@
 				<view :class="['filter-btn','active']">推荐</view>
 				<!-- <view :class="['filter-btn']">最新</view> -->
 			</view>
-			<view class="filter-block filter-right">
+			<view class="filter-block filter-right" v-if="filterSwitch">
 				<view class="filter-btn" @click="$emit('filterCity')">{{city}}</view>
 				<view class="filter-btn" @click="$emit('filterShow','right')">筛选</view>
 			</view>
@@ -18,6 +18,10 @@
 	export default {
 		name: 'FilterBox',
 		props: {
+			filterSwitch: {
+				type: Boolean,
+				default: true
+			},
 			data: {
 				type: Object,
 				default: function(e) {
@@ -36,14 +40,13 @@
 			}
 		},
 		data() {
-			return {
-			};
+			return {};
 		},
 		computed: {
-			
+
 		},
 		methods: {
-			
+
 		}
 	}
 </script>

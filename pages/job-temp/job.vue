@@ -4,7 +4,7 @@
 			<search-header :title="title" v-model="formData['keyword']" @onSearchBlur="onSearchBlur"></search-header>
 		</block>
 		<block>
-			<filter-box @filterCity="showMulLinkageThreePicker" @filterShow="filterShow" :city="formData['city']"></filter-box>
+			<filter-box :filterSwitch="!filterSwitch" @filterCity="showMulLinkageThreePicker" @filterShow="filterShow" :city="formData['city']"></filter-box>
 			<mpvue-picker :themeColor="themeColor" ref="mpvuePicker" :mode="mode" :deepLength="deepLength" :pickerValueDefault="pickerValueDefault"
 			 @onConfirm="onConfirm" @onCancel="onCancel" :pickerValueArray="pickerValueArray"></mpvue-picker>
 			<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
@@ -96,63 +96,16 @@
 				themeColor: '#007AFF',
 				showRigth: false,
 				showLeft: false,
+				filterSwitch: true,//是伐显示筛选[城市，分类]
 				company: [{
 					"value": "",
 					"name": "全部",
 					"checked": true
-				}, {
-					"value": "1",
-					"name": "A公司",
-					"checked": false
-				}, {
-					"value": "2",
-					"name": "BBBB公司",
-					"checked": false
-				}, {
-					"value": "3",
-					"name": "CCCCC公司",
-					"checked": false
-				}, {
-					"value": "4",
-					"name": "A公司",
-					"checked": false
-				}, {
-					"value": "5",
-					"name": "BBBB公司",
-					"checked": false
-				}, {
-					"value": "6",
-					"name": "CCCCC公司",
-					"checked": false
-				}, {
-					"value": "7",
-					"name": "A公司",
-					"checked": false
-				}, {
-					"value": "8",
-					"name": "BBBB公司",
-					"checked": false
-				}, {
-					"value": "9",
-					"name": "CCCCC公司",
-					"checked": false
 				}],
 				ctg: [{
 					"value": "",
 					"name": "全部",
 					"checked": true
-				}, {
-					"value": "1",
-					"name": "市场专员",
-					"checked": false
-				}, {
-					"value": "2",
-					"name": "市场专员2",
-					"checked": false
-				}, {
-					"value": "3",
-					"name": "市场专员3",
-					"checked": false
 				}]
 			}
 		},

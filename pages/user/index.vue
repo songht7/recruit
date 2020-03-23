@@ -65,7 +65,11 @@
 				})
 			},
 			userBuild() {},
-			resumeBtn() {}
+			resumeBtn() {
+				uni.navigateTo({
+					url: '/pages/user/resume'
+				})
+			}
 		}
 	}
 </script>

@@ -181,9 +181,9 @@ const store = new Vuex.Store({
 			const r = window && window.location.search.substr(1).match(reg)
 			if (r != null) {
 				console.log("get-wxCode-success")
-				console.log("code:", code)
 				let code = unescape(r[2])
-				ctx.dispatch("getWeChatInfo", code)
+				console.log("code:", code)
+				//ctx.dispatch("getWeChatInfo", code)
 
 			} else {
 				console.log("get-wxCode-fail")
@@ -192,7 +192,7 @@ const store = new Vuex.Store({
 		},
 		getWeChatInfo(ctx, data) {
 			var parm = {
-				inter: "getWeChatInfo",
+				inter: "weChatAuth",
 				parm: `?code=${data}`
 			};
 			parm["fun"] = function(res) {
