@@ -12,22 +12,24 @@
 			<uni-drawer :visible="showRigth" mode="right" @close="closeDrawer('right')">
 				<view class="drawer-title">筛选</view>
 				<view class="drawer-list">
-					<view class="filter-block">
-						<view class="filter-title">公司</view>
-						<view class="filter-status">
-							<scroll-view scroll-y="true" style="max-height: 200rpx;">
-								<radio-group class="flt-list" name="subctg">
-									<view class="f-block" :class="s.checked ?  'checkbox selectBox' : 'checkbox '" @click="filterSetData(s.value,c,'company')"
-									 v-for="(s,c) in company" :key="s.value">
-										<label class="f-label">
-											<radio :value="s.value" :checked="s.checked" v-show="false" />{{s.name}}
-										</label>
-									</view>
-								</radio-group>
-							</scroll-view>
+					<block v-for="(obj,k) in screens" :key="k">
+						<view class="filter-block">
+							<view class="filter-title">公司</view>
+							<view class="filter-status">
+								<scroll-view scroll-y="true" style="max-height: 200rpx;">
+									<radio-group class="flt-list" name="subctg">
+										<view class="f-block" :class="s.checked ?  'checkbox selectBox' : 'checkbox '" @click="filterSetData(s.value,c,'company')"
+										 v-for="(s,c) in company" :key="s.value">
+											<label class="f-label">
+												<radio :value="s.value" :checked="s.checked" v-show="false" />{{s.name}}
+											</label>
+										</view>
+									</radio-group>
+								</scroll-view>
+							</view>
 						</view>
-					</view>
-					<view class="filter-block">
+					</block>
+					<!-- <view class="filter-block">
 						<view class="filter-title">职业分类</view>
 						<view class="filter-status">
 							<scroll-view scroll-y="true" style="max-height: 200rpx;">
@@ -41,7 +43,7 @@
 								</radio-group>
 							</scroll-view>
 						</view>
-					</view>
+					</view> -->
 				</view>
 				<view class="drawer-btns">
 					<button type="default" size="default" @click="hideDrawer">关闭</button>
@@ -96,7 +98,8 @@
 				themeColor: '#007AFF',
 				showRigth: false,
 				showLeft: false,
-				filterSwitch: true,//是伐显示筛选[城市，分类]
+				filterSwitch: true, //是伐显示筛选[城市，分类]
+				screens: [], //分类列表
 				company: [{
 					"value": "",
 					"name": "全部",
@@ -118,7 +121,7 @@
 			uniDrawer
 		},
 		methods: {
-			getData(type = "") {
+			getData(type = "") { //职位列表
 				var that = this;
 				console.log("formData:", that.formData);
 				that.hideDrawer()
@@ -143,6 +146,30 @@
 					if (res.success) {
 						that.jobList = res.data.list ? res.data.list : [];
 						that.total = res.data.total;
+					}
+				};
+				that.$store.dispatch("getData", parm)
+			},
+			screening() { //筛选条件列表
+				var that = this;
+				var parm = {
+					inter: "screening"
+				};
+				parm["fun"] = function(res) {
+					console.log(res)
+					if (res.success) {
+						let _list = res.data.list;
+						console.log(_list)
+						// let screenList = [];
+						// _list.map((obj, k) => {
+						// 	let L = {
+						// 		name: obj.name,
+						// 		list: obj.data
+						// 	}
+						// 	screenList.push(L)
+						// });
+						// that.screens = screenList
+
 					}
 				};
 				that.$store.dispatch("getData", parm)

@@ -26,7 +26,8 @@ const store = new Vuex.Store({
 		cosConfig: common.Interface.cosConfig,
 		wxConfig: common.Interface.wxConfig,
 		companyID: "",
-		page_index: 0
+		page_index: 0,
+		testToken: "1f508c8050e5290bc31759fed9dbd63784187fb3"
 	},
 	mutations: {
 		switch_loading(state, status) {
@@ -180,10 +181,9 @@ const store = new Vuex.Store({
 			const reg = new RegExp(`(^|&)code=([^&]*)(&|$)`, 'i')
 			const r = window && window.location.search.substr(1).match(reg)
 			if (r != null) {
-				console.log("get-wxCode-success")
 				let code = unescape(r[2])
-				console.log("code:", code)
-				//ctx.dispatch("getWeChatInfo", code)
+				console.log("get-wxCode-success:", code)
+				ctx.dispatch("getWeChatInfo", code)
 
 			} else {
 				console.log("get-wxCode-fail")
@@ -198,7 +198,13 @@ const store = new Vuex.Store({
 			parm["fun"] = function(res) {
 				console.log("getWeChatInfo:", res)
 				if (res.success) {
-
+					uni.setStorage({
+						key: 'WeChatInfo',
+						data: res.data,
+						success: function() {
+							//console.log('success');
+						}
+					});
 				}
 			};
 			ctx.dispatch("getData", parm)

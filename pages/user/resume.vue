@@ -96,7 +96,7 @@
 					<view class="his-row">
 						<view class="his-label">工作内容：</view>
 						<view class="his-val">
-							<textarea class="his-input" v-model="formData['Job']['content']" auto-height placeholder-style="color:#a9c4f6"></textarea>
+							<textarea class="his-input" v-model="formData['job']['content']" auto-height placeholder-style="color:#a9c4f6"></textarea>
 						</view>
 					</view>
 				</view>
@@ -123,7 +123,8 @@
 					status: "", //目前状况
 					school: [],
 					company: [],
-					project: []
+					project: [],
+					job:{"content":""}
 				}
 			}
 		}

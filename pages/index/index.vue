@@ -25,6 +25,7 @@
 		onReady() {
 			var that = this;
 			that.$refs.JobTemp.getData();
+			that.$refs.JobTemp.screening();
 		},
 		methods: {}
 	}

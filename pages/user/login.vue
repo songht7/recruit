@@ -22,6 +22,12 @@
 
 <script>
 	var graceChecker = require("@/common/graceChecker.js");
+	var rule = [{
+		name: "phone",
+		checkType: "phoneno",
+		checkRule: "",
+		errorMsg: "请填写正确的手机号"
+	}];
 	export default {
 		data() {
 			return {
@@ -33,11 +39,19 @@
 				formData: {
 					phone: '',
 					code: ''
-				}
+				},
+				WeChatInfo: []
 			}
 		},
 		onLoad() {
-
+			var that = this;
+			uni.getStorage({
+				key: 'WeChatInfo',
+				success: function(res) {
+					console.log(res.data);
+					that.WeChatInfo = res.data;
+				}
+			});
 		},
 		onShow() {
 			var that = this;
@@ -46,6 +60,50 @@
 			login(val) {
 				var that = this;
 				console.log(that.formData)
+				var that = this;
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
+				var rules = [...rule, {
+					name: "code",
+					checkType: "notnull",
+					checkRule: "",
+					errorMsg: "验证码不能为空"
+				}];
+				let _formData = that.formData;
+				var checkRes = graceChecker.check(_formData, rules);
+				if (checkRes) {
+					that.loading = true;
+					const _token = that.$store.state.testToken ? that.$store.state.testToken : that.WeChatInfo.token;
+					var parm = {
+						inter: "savePhone",
+						method: "POST",
+						header: {
+							token: that.$store.state.testToken
+						},
+						data: that.formData
+					};
+					console.log("login:", parm)
+					parm["fun"] = function(res) {
+						console.log(res)
+						that.loading = false;
+						if (res.success) {
+
+						} else {
+							uni.showToast({
+								title: res.msg,
+								icon: "none"
+							});
+						}
+					};
+					that.$store.dispatch("getData", parm)
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
+				}
 			},
 			checkPhone() {
 				var that = this;
@@ -53,12 +111,6 @@
 					scrollTop: 0,
 					duration: 0
 				})
-				var rule = [{
-					name: "phone",
-					checkType: "phoneno",
-					checkRule: "",
-					errorMsg: "请填写正确的手机号"
-				}];
 				let _formData = that.formData;
 				var checkRes = graceChecker.check(_formData, rule);
 				if (checkRes) {
@@ -82,6 +134,18 @@
 				if (!that.disbale) {
 					that.loading = true;
 					console.log(that.formData)
+					var parm = {
+						inter: "sendSms",
+						parm: `?phone=${that.formData.phone}`
+					};
+					parm["fun"] = function(res) {
+						console.log(res)
+						that.loading = false;
+						if (res.success) {
+
+						}
+					};
+					that.$store.dispatch("getData", parm)
 				}
 			}
 		}
@@ -161,7 +225,8 @@
 		color: #007AFF;
 	}
 
-	.disbale-btn,.loading{
+	.disbale-btn,
+	.loading {
 		color: #666;
 	}
 </style>
