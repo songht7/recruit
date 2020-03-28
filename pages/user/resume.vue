@@ -1,12 +1,16 @@
 <template>
 	<view class="content">
 		<view class="header">
-			<view class="portrait">
-				<image v-if="portrait" class="portrait-img" src="../../static/logo.png" mode="aspectFit"></image>
-				<uni-icons v-else class="portrait-img" type="touxiang1" size="75"></uni-icons>
+			<!-- <view class="portrait">
+				<image v-if="!portrait" class="portrait-img" src="../../static/logo.png" mode="aspectFit"></image>
+				<uni-icons v-else class="portrait-img" type="touxiang1" size="75" color="#fff"></uni-icons>
 			</view>
-			<view class="user-name">用户名</view>
+			<view class="user-name">用户名</view> -->
 			<view class="u-base-info">
+				<view class="b-row">
+					<uni-icons class="b-icon" type="touxiang1" size="18" color="#fff"></uni-icons>
+					<input class="b-input" type="text" v-model="formData['name']" placeholder="姓名" placeholder-style="color:#a9c4f6" />
+				</view>
 				<view class="b-row">
 					<uni-icons class="b-icon" type="shengri1" size="18" color="#fff"></uni-icons>
 					<input class="b-input" type="text" v-model="formData['brithday']" placeholder="生日" placeholder-style="color:#a9c4f6" />
@@ -28,7 +32,7 @@
 				 placeholder="自我简介"></textarea></view>
 		</view>
 		<view class="history">
-			<template>
+			<!-- <template>
 				<view class="his-block">
 					<view class="his-title">求职意向</view>
 					<view class="his-row">
@@ -42,34 +46,34 @@
 						<view class="his-val"><textarea class="his-input" v-model="formData['status']" auto-height placeholder-style="color:#a9c4f6"></textarea></view>
 					</view>
 				</view>
-			</template>
+			</template> -->
 			<template>
 				<view class="his-block">
 					<view class="his-title">教育经历</view>
 					<view class="his-row">
 						<view class="his-label">毕业学校：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
-						</view>
-					</view>
-					<view class="his-row">
-						<view class="his-label">学历：</view>
-						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
-						</view>
-					</view>
-					<view class="his-row">
-						<view class="his-label">就读年份：</view>
-						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
+							<input class="his-input" type="text" v-model="formData['school'][0]['school']" />
 						</view>
 					</view>
 					<view class="his-row">
 						<view class="his-label">攻读专业：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
+							<input class="his-input" type="text" v-model="formData['school'][0]['profession']" />
 						</view>
 					</view>
+					<view class="his-row">
+						<view class="his-label">就读年份：</view>
+						<view class="his-val">
+							<input class="his-input" type="text" v-model="formData['school'][0]['start_time']" />
+						</view>
+					</view>
+					<!-- <view class="his-row">
+						<view class="his-label">学历：</view>
+						<view class="his-val">
+							<input class="his-input" type="text" v-model="formData['school'][0]['post']" />
+						</view>
+					</view> -->
 				</view>
 			</template>
 			<template>
@@ -78,29 +82,32 @@
 					<view class="his-row">
 						<view class="his-label">公司：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
+							<input class="his-input" type="text" v-model="formData['project'][0]['name']" />
 						</view>
 					</view>
-					<view class="his-row">
+					<!-- <view class="his-row">
 						<view class="his-label">职位：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
+							<input class="his-input" type="text" v-model="formData['project'][0]['overview']" />
 						</view>
-					</view>
+					</view> -->
 					<view class="his-row">
 						<view class="his-label">年份：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['post']" />
+							<input class="his-input" type="text" v-model="formData['project'][0]['start_time']" />
 						</view>
 					</view>
 					<view class="his-row">
 						<view class="his-label">工作内容：</view>
 						<view class="his-val">
-							<textarea class="his-input" v-model="formData['job']['content']" auto-height placeholder-style="color:#a9c4f6"></textarea>
+							<textarea class="his-input" v-model="formData['project'][0]['overview']" auto-height placeholder-style="color:#a9c4f6"></textarea>
 						</view>
 					</view>
 				</view>
 			</template>
+			<view class="submit-resume" @click="editResume('PUT')">
+				提交
+			</view>
 		</view>
 	</view>
 </template>
@@ -109,6 +116,7 @@
 	export default {
 		data() {
 			return {
+				loading: false,
 				title: '我的',
 				portrait: !false,
 				formData: {
@@ -118,13 +126,32 @@
 					phone: "",
 					age_work: "",
 					education: "",
+					about_self: "",
 					sex: "",
 					post: "", //期望岗位
 					status: "", //目前状况
-					school: [],
-					company: [],
-					project: [],
-					job:{"content":""}
+					school: [{
+						"id": "",
+						"school": "",
+						"profession": "",
+						"start_time": "",
+						"end_time": ""
+					}],
+					company: [{
+						"id": "",
+						"company": "",
+						"job": "",
+						"start_time": "",
+						"end_time": "",
+						"infomation": ""
+					}],
+					project: [{
+						"id": "",
+						"name": "",
+						"overview": "",
+						"start_time": "",
+						"end_time": ""
+					}]
 				}
 			}
 		}
@@ -136,23 +163,48 @@
 		onShow() {
 			var that = this;
 			that.$store.dispatch("cheack_page", 2);
+			that.editResume('GET');
 		}
 
 		,
 		methods: {
-			userBinding() {
-				uni.navigateTo({
-						url: '/pages/user/login'
+			editResume(type) {
+				var that = this;
+				that.loading = true;
+				const _token = that.$store.state.testToken ? that.$store.state.testToken : that.WeChatInfo.token;
+				var parm = {
+					inter: "resume",
+					method: type,
+					header: {
+						token: _token
 					}
-
-				)
+				};
+				if (type == "PUT") {
+					parm["data"] = that.formData;
+				}
+				console.log("login:", parm)
+				parm["fun"] = function(res) {
+					console.log(res)
+					that.loading = false;
+					if (res.success) {
+						if (type == "GET" && res.data.info != false) {
+							that.formData = res.data.info;
+						} else {
+							uni.showToast({
+								title: "简历编辑成功",
+								icon: "success"
+							});
+						}
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: "none"
+						});
+					}
+				};
+				that.$store.dispatch("getData", parm)
 			}
 
-			,
-			userBuild() {}
-
-			,
-			resumeBtn() {}
 		}
 	}
 </script>
@@ -165,7 +217,7 @@
 		flex-direction: column;
 		align-items: center;
 		align-content: center;
-		padding: 30rpx;
+		padding: 90rpx 30rpx 30rpx;
 	}
 
 	.portrait {
@@ -255,5 +307,19 @@
 		width: 100%;
 		font-size: 32rpx;
 		border-bottom: 1px solid #7f7f7f;
+	}
+
+	.submit-resume {
+		width: 100%;
+		background: #3a78ea;
+		color: #FFFFFF;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+		flex-direction: row;
+		line-height: 3;
+		font-size: 32rpx;
+		border-radius: 10rpx;
 	}
 </style>

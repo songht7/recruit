@@ -2,23 +2,23 @@
 	<view class="content">
 		<view id="UserHeader">
 			<view class="user-build">
-				<uni-icons class="build-btn" type="shezhi" :size="32" color="#fff" @click="userBuild"></uni-icons>
+				<!-- <uni-icons class="build-btn" type="shezhi" :size="32" color="#fff" @click="userBuild"></uni-icons> -->
 			</view>
 			<view class="user-info">
 				<view class="user-info-left">
-					<view class="user-name" @click="userBinding">用户名</view>
+					<view class="user-name" @click="userBinding">{{userInfo.phone?userInfo.phone:""}}</view>
 					<view class="user-resume-build" @click="resumeBtn">
 						<view class="reume-label">我的在线简历</view>
 					</view>
 				</view>
 				<view class="user-info-right">
 					<view class="portrait">
-						<image v-if="portrait" class="portrait-img" src="../../static/logo.png" mode="aspectFit"></image>
-						<uni-icons v-else class="portrait-img" type="touxiang1" size="75"></uni-icons>
+						<image v-if="!portrait" class="portrait-img" src="../../static/logo.png" mode="aspectFit"></image>
+						<uni-icons v-else class="portrait-img" type="touxiang1" size="75" color="#fff"></uni-icons>
 					</view>
 				</view>
 			</view>
-			<view class="reume-count">
+			<!-- <view class="reume-count">
 				<view class="count-block">
 					<view class="count-numb">1</view>
 					<view class="count-label">近一月</view>
@@ -27,17 +27,17 @@
 					<view class="count-numb">10</view>
 					<view class="count-label">投递总数</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="user-main">
-			<view class="record">
+			<!-- <view class="record">
 				<view class="record-val">附件简历</view>
 				<view class="record-info">未上传</view>
 			</view>
 			<view class="record">
 				<view class="record-val record-apply">申请记录</view>
 				<view class="record-info">xxxxxxxx</view>
-			</view>
+			</view> -->
 		</view>
 		<tab-bar></tab-bar>
 	</view>
@@ -48,7 +48,8 @@
 		data() {
 			return {
 				title: '我的',
-				portrait: !false
+				portrait: !false,
+				userInfo: {}
 			}
 		},
 		onLoad() {
@@ -57,6 +58,13 @@
 		onShow() {
 			var that = this;
 			that.$store.dispatch("cheack_page", 2);
+			uni.getStorage({
+				key: "user",
+				success(res) {
+					console.log(res.data)
+					that.userInfo = res.data.userInfo
+				}
+			})
 		},
 		methods: {
 			userBinding() {
@@ -98,7 +106,7 @@
 	}
 
 	.user-name {
-		font-size: 70rpx;
+		font-size: 45rpx;
 		color: #FFFFFF;
 	}
 
@@ -110,7 +118,7 @@
 	}
 
 	.reume-label {
-		font-size: 40rpx;
+		font-size: 30rpx;
 		color: #FFFFFF;
 	}
 

@@ -80,7 +80,7 @@
 						inter: "savePhone",
 						method: "POST",
 						header: {
-							token: that.$store.state.testToken
+							token: _token
 						},
 						data: that.formData
 					};
