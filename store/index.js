@@ -27,7 +27,7 @@ const store = new Vuex.Store({
 		wxConfig: common.Interface.wxConfig,
 		companyID: "",
 		page_index: 0,
-		testToken: "02145ae8352e82f68f64b2abfe8ecd871b6d7902"
+		testToken: "4f3a8f7fbabb5e6a42c009665ce9b93653af0cfb"
 	},
 	mutations: {
 		switch_loading(state, status) {

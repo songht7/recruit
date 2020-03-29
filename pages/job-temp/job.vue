@@ -139,7 +139,10 @@
 				}
 				var parm = {
 					inter: "supports",
-					data: that.formData
+					//data: that.formData,
+					header: {
+						//token: that.$store.state.testToken
+					}
 				};
 				parm["fun"] = function(res) {
 					console.log(res)
