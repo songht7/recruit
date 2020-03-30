@@ -28,7 +28,7 @@
 		},
 		onReady() {
 			var that = this;
-			if (that.enterprise_id) {
+			if (that.enterprise_id || that.$store.state.enterprise_id) {
 				that.$refs.JobTemp.getData();
 			}
 		},

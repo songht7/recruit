@@ -154,24 +154,23 @@
 					}]
 				}
 			}
-		}
+		},
+		onLoad() {
 
-		,
-		onLoad() {}
-
-		,
+		},
 		onShow() {
 			var that = this;
 			that.$store.dispatch("cheack_page", 2);
 			that.editResume('GET');
-		}
-
-		,
+		},
 		methods: {
 			editResume(type) {
 				var that = this;
 				that.loading = true;
-				const _token = that.$store.state.testToken ? that.$store.state.testToken : that.WeChatInfo.token;
+				const _token = that.$store.state.testToken;
+				if (that.$store.state.isWeixin) {
+					_token = that.WeChatInfo.token;
+				}
 				var parm = {
 					inter: "resume",
 					method: type,

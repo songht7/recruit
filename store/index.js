@@ -25,8 +25,9 @@ const store = new Vuex.Store({
 		portrait: "",
 		cosConfig: common.Interface.cosConfig,
 		wxConfig: common.Interface.wxConfig,
-		companyID: "",
+		enterprise_id: "",
 		page_index: 0,
+		isWeixin: false,
 		testToken: "4f3a8f7fbabb5e6a42c009665ce9b93653af0cfb"
 	},
 	mutations: {
@@ -97,9 +98,9 @@ const store = new Vuex.Store({
 			})
 		},
 		savePram(ctx, pram) {
-			var companyID = pram.cid ? pram.cid : ctx.state.companyID;
-			if (companyID) {
-				ctx.state.companyID = companyID;
+			var enterprise_id = pram.enterprise_id ? pram.enterprise_id : ctx.state.enterprise_id;
+			if (enterprise_id) {
+				ctx.state.enterprise_id = enterprise_id;
 			}
 		},
 		cheack_user(ctx) {
@@ -166,6 +167,10 @@ const store = new Vuex.Store({
 				return unescape(r[2])
 			}
 			return null
+		},
+		isWeixin(ctx) {
+			let isWeixin = !!/micromessenger/i.test(navigator.userAgent.toLowerCase());
+			ctx.state.isWeixin = isWeixin;
 		},
 		wxXCXAuth(ctx) {
 			console.log("--wxXCXAuth--")

@@ -42,18 +42,18 @@ export default {
 			state.companyName = val;
 		}
 	},
-	getters:{
-		bar_index:state => state.now_page_index,
+	getters: {
+		bar_index: state => state.now_page_index,
 	},
 	actions: {
 		menu_default(ctx) {
 			nav_default[1]["name"] = ctx.state.companyName;
-			let cid = ctx.rootState.companyID;
-			console.log("companyID：", cid)
+			let cid = ctx.rootState.enterprise_id;
+			console.log("enterprise_id：", cid)
 			if (cid) {
-				nav_default[0]["link"] = links[0] + "?cid=" + cid;
-				nav_default[1]["link"] = links[1] + "?cid=" + cid;
-				nav_default[2]["link"] = links[2] + "?cid=" + cid;
+				nav_default[0]["link"] = links[0] + "?enterprise_id=" + cid;
+				nav_default[1]["link"] = links[1] + "?enterprise_id=" + cid;
+				nav_default[2]["link"] = links[2] + "?enterprise_id=" + cid;
 			}
 			let menu_list = nav_default;
 			ctx.commit("change_nav_list", menu_list)

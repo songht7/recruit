@@ -2,27 +2,26 @@
 	<view class="content">
 		<view class="job-header">
 			<view class="job-val">
-				<view class="job-title">{{title}}</view>
-				<view class="job-price">8-13k</view>
+				<view class="job-title">{{detail.name}}</view>
+				<view class="job-price">{{detail.salary}}</view>
 			</view>
 			<view class="job-tags">
-				<view class="tag city">上海</view>
-				<view class="tag years">1-4年</view>
-				<view class="tag edu">学历不限</view>
+				<view class="tag city">{{detail.city}}</view>
+				<view class="tag years">{{detail.age_min}}</view>
+				<view class="tag edu" v-if="detail.education">{{detail.education}}</view>
 			</view>
 		</view>
 		<view class="manager">
 			<view class="portrait">
-				<image v-show="portrait" class="portrait-img" src="../../static/logo.png" mode="aspectFit"></image>
-				<uni-icons v-show="!portrait" class="portrait-img" type="touxiang1" size="75"></uni-icons>
+				<image class="portrait-img" :src="portrait?portrait:'../../static/logo.png'" mode="aspectFit"></image>
 			</view>
 			<view class="manager-info">
-				<view class="manager-name">骑兵</view>
-				<view class="manager-post">SIXECO HR</view>
+				<view class="manager-name">{{detail.eName}}</view>
+				<!-- <view class="manager-post">SIXECO HR</view> -->
 			</view>
 		</view>
 		<view class="detail">
-			<rich-text class="job-detail" :nodes="data"></rich-text>
+			<rich-text class="job-detail" :nodes="detail.detail?detail.detail:detail.overview"></rich-text>
 		</view>
 		<fix-button gobackShow="false">
 			<view :class="['fbtns','fbtns-clr-full ','fbtn-full',reumeIsSend?'reume-send':'']" @click="reumeSend">{{reumeIsSend?"简历已提交":"投递简历"}}</view>
@@ -37,8 +36,8 @@
 			return {
 				title: '策划',
 				id: "",
-				detail:[],
-				portrait: !false,
+				detail: [],
+				portrait: false,
 				data: "<p>detail</p>",
 				reumeIsSend: false
 			}
@@ -64,13 +63,46 @@
 				parm["fun"] = function(res) {
 					console.log(res)
 					if (res.success) {
-						// that.detail = res.data.list;
+						that.detail = res.data;
 					}
 				};
 				that.$store.dispatch("getData", parm)
 			},
 			reumeSend() {
-				this.reumeIsSend = !this.reumeIsSend
+				var that = this;
+				that.loading = true;
+				const _token = that.$store.state.testToken;
+				if (that.$store.state.isWeixin) {
+					_token = that.WeChatInfo.token;
+				}
+				var parm = {
+					inter: "resume",
+					method: "POST",
+					data: {
+						article_id: that.id
+					},
+					header: {
+						token: _token
+					}
+				};
+				console.log("login:", parm)
+				parm["fun"] = function(res) {
+					console.log(res)
+					that.loading = false;
+					if (res.success) {
+						uni.showToast({
+							title: "简历已投递",
+							icon: "none"
+						});
+						this.reumeIsSend = !this.reumeIsSend
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: "none"
+						});
+					}
+				};
+				that.$store.dispatch("getData", parm)
 			}
 		}
 	}

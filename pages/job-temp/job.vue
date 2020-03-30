@@ -75,7 +75,7 @@
 		data() {
 			return {
 				title: "职位",
-				comany_id: "",
+				enterprise_id: "",
 				formData: {
 					province: '上海',
 					city: '上海',
@@ -125,28 +125,33 @@
 				var that = this;
 				console.log("formData:", that.formData);
 				that.hideDrawer()
-				var comany_id = that.$store.state.companyID;
+				var enterprise_id = that.$store.state.enterprise_id;
 				that.title = that.pageTitle ? that.pageTitle : "人力资源公司";
 				var bar_index = that.$store.getters.bar_index.toString();
-				if (comany_id && bar_index == "1") {
-					console.log(comany_id, bar_index)
-					that.title = "A公司";
+				if (enterprise_id && bar_index == "1") {
+					console.log(enterprise_id, bar_index)
 				}
 				//that.$store.commit("set_company_name", "人力资源公司");
 				if (type == 'keyword' && that.formData['keyword'] != "") {
 					that.searchShow = false;
 					that.focus = false;
 				}
+				const _token = that.$store.state.testToken;
+				if (that.$store.state.isWeixin) {
+					_token = that.WeChatInfo.token;
+				}
 				var parm = {
 					inter: "supports",
 					//data: that.formData,
+					pram: "?enterprise_id=" + enterprise_id,
 					header: {
-						//token: that.$store.state.testToken
+						token: _token
 					}
 				};
 				parm["fun"] = function(res) {
 					console.log(res)
 					if (res.success) {
+						//that.title = "A公司";
 						that.jobList = res.data.list ? res.data.list : [];
 						that.total = res.data.total;
 					}
