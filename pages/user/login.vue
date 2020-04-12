@@ -5,12 +5,11 @@
 				<view class="login-label"><text class="label">绑定关联手机号</text></view>
 
 				<view :class="['login-input',phoneErr?'phone-err':'']">
-					<input class="user-input" type="number" maxlength="11" @focus="onFocus" @blur="checkPhone" placeholder="手机号"
-					 v-model="formData['phone']" />
+					<input class="user-input" type="number" maxlength="11" @focus="onFocus" placeholder="手机号" v-model="formData['phone']" />
 				</view>
 				<view class="login-input">
 					<input class="user-input" type="text" maxlength="6" v-model="formData['code']" placeholder="验证码" />
-					<view :class="['get-code',disbale?'disbale-btn':'',loading?'loading':'']" @click="getCode">获取验证码</view>
+					<view :class="['get-code',seandCode?'loading':'']" @click="getCode">{{seandCode?count+'s 重新获取':'获取验证码'}}</view>
 				</view>
 				<view class="login-btns">
 					<view class="login-btn" @click="login">登录</view>
@@ -36,11 +35,14 @@
 				disbale: true,
 				phoneErr: false,
 				loading: false,
+				seandCode: false,
+				count: 60,
 				formData: {
 					phone: '',
 					code: ''
 				},
-				WeChatInfo: []
+				token: "",
+				WeChatInfo: {}
 			}
 		},
 		onLoad() {
@@ -89,7 +91,9 @@
 						console.log(res)
 						that.loading = false;
 						if (res.success) {
-
+							uni.navigateTo({
+								url: '/pages/user/index'
+							})
 						} else {
 							uni.showToast({
 								title: res.msg,
@@ -131,8 +135,19 @@
 			},
 			getCode() {
 				var that = this;
-				if (!that.disbale) {
-					that.loading = true;
+				if (that.seandCode) {
+					return
+				}
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				})
+				var __rule = rule;
+				let _formData = that.formData;
+				var checkRes = graceChecker.check(_formData, __rule);
+				if (checkRes) {
+					that.seandCode = true;
+					that.countDown();
 					console.log(that.formData)
 					var parm = {
 						inter: "sendSms",
@@ -140,12 +155,32 @@
 					};
 					parm["fun"] = function(res) {
 						console.log(res)
-						that.loading = false;
 						if (res.success) {
 
 						}
 					};
 					that.$store.dispatch("getData", parm)
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
+				}
+			},
+			countDown() {
+				var that = this;
+				const TIME_COUNT = 60;
+				if (!this.timer) {
+					this.count = TIME_COUNT;
+					this.timer = setInterval(() => {
+						if (this.count > 0 && this.count <= TIME_COUNT) {
+							this.count--;
+						} else {
+							that.seandCode = false;
+							clearInterval(this.timer);
+							this.timer = null;
+						}
+					}, 1000);
 				}
 			}
 		}

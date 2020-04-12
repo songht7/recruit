@@ -28,7 +28,8 @@ const store = new Vuex.Store({
 		enterprise_id: "",
 		page_index: 0,
 		isWeixin: false,
-		testToken: "4f3a8f7fbabb5e6a42c009665ce9b93653af0cfb"
+		weChatAuthInfo: {},
+		testToken: "ffec954829687fd4276085c27334234065a4702a"
 	},
 	mutations: {
 		switch_loading(state, status) {
@@ -203,6 +204,7 @@ const store = new Vuex.Store({
 			parm["fun"] = function(res) {
 				console.log("getWeChatInfo:", res)
 				if (res.success) {
+					ctx.state.weChatAuthInfo = res.data;
 					uni.setStorage({
 						key: 'WeChatInfo',
 						data: res.data,

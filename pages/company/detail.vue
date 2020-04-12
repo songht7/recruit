@@ -24,7 +24,7 @@
 			<rich-text class="job-detail" :nodes="detail.detail?detail.detail:detail.overview"></rich-text>
 		</view>
 		<fix-button gobackShow="false">
-			<view :class="['fbtns','fbtns-clr-full ','fbtn-full',reumeIsSend?'reume-send':'']" @click="reumeSend">{{reumeIsSend?"简历已提交":"投递简历"}}</view>
+			<view :class="['fbtns','fbtns-clr-full ','fbtn-full',reumeIsSend?'reume-send':'']" :disable='reumeIsSend' @click="reumeSend">{{reumeIsSend?"简历已提交":"投递简历"}}</view>
 		</fix-button>
 	</view>
 </template>
@@ -70,10 +70,13 @@
 			},
 			reumeSend() {
 				var that = this;
+				if (that.reumeIsSend) {
+					return
+				}
 				that.loading = true;
 				const _token = that.$store.state.testToken;
 				if (that.$store.state.isWeixin) {
-					_token = that.WeChatInfo.token;
+					_token = that.$store.state.weChatAuthInfo.token;
 				}
 				var parm = {
 					inter: "resume",
@@ -94,8 +97,9 @@
 							title: "简历已投递",
 							icon: "none"
 						});
-						this.reumeIsSend = !this.reumeIsSend
+						that.reumeIsSend = true;
 					} else {
+						that.reumeIsSend = false;
 						uni.showToast({
 							title: res.msg,
 							icon: "none"

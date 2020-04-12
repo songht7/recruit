@@ -9,7 +9,13 @@
 			this.$store.dispatch("isWeixin")
 			let isWeixin = !!/micromessenger/i.test(navigator.userAgent.toLowerCase())
 			console.log("isWeixin:", isWeixin)
-			if(isWeixin){
+			if (isWeixin) {
+				uni.getStorage({
+					key: 'WeChatInfo',
+					success(res) {
+						this.$store.state.weChatAuthInfo = res.data;
+					}
+				})
 				this.$store.dispatch("wxXCXAuth")
 			}
 		},

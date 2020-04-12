@@ -169,7 +169,7 @@
 				that.loading = true;
 				const _token = that.$store.state.testToken;
 				if (that.$store.state.isWeixin) {
-					_token = that.WeChatInfo.token;
+					_token = that.$store.state.weChatAuthInfo.token;
 				}
 				var parm = {
 					inter: "resume",
