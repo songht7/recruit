@@ -128,18 +128,24 @@
 				var enterprise_id = that.$store.state.enterprise_id;
 				that.title = that.pageTitle ? that.pageTitle : "人力资源公司";
 				var bar_index = that.$store.getters.bar_index.toString();
+				console.log(123)
 				if (enterprise_id && bar_index == "1") {
 					console.log(enterprise_id, bar_index)
 				}
+				console.log(456)
 				//that.$store.commit("set_company_name", "人力资源公司");
 				if (type == 'keyword' && that.formData['keyword'] != "") {
 					that.searchShow = false;
 					that.focus = false;
 				}
-				const _token = that.$store.state.testToken;
+				console.log(789)
+				var _token = that.$store.state.testToken;
+				console.log("testToken_token：", _token)
 				if (that.$store.state.isWeixin) {
-					_token = that.WeChatInfo.token;
+				console.log("isWeixin_token：", _token)
+					_token = that.$store.state.weChatAuthInfo.token;
 				}
+				console.log("_token：", _token)
 				var parm = {
 					inter: "supports",
 					//data: that.formData,

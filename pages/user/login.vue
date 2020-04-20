@@ -48,7 +48,7 @@
 		onLoad() {
 			var that = this;
 			uni.getStorage({
-				key: 'WeChatInfo',
+				key: 'WeChatInfoWeb',
 				success: function(res) {
 					console.log(res.data);
 					that.WeChatInfo = res.data;
@@ -77,7 +77,7 @@
 				var checkRes = graceChecker.check(_formData, rules);
 				if (checkRes) {
 					that.loading = true;
-					const _token = that.$store.state.testToken ? that.$store.state.testToken : that.WeChatInfo.token;
+					var _token = that.$store.state.testToken ? that.$store.state.testToken : that.WeChatInfo.token;
 					var parm = {
 						inter: "savePhone",
 						method: "POST",

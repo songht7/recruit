@@ -6,14 +6,14 @@
 			</view>
 			<view class="user-info">
 				<view class="user-info-left">
-					<view class="user-name" @click="userBinding">{{userInfo.phone?userInfo.phone:""}}</view>
+					<view class="user-name" @click="userBinding">{{userInfo.name?userInfo.name:""}}</view>
 					<view class="user-resume-build" @click="resumeBtn">
 						<view class="reume-label">我的在线简历</view>
 					</view>
 				</view>
 				<view class="user-info-right">
 					<view class="portrait">
-						<image v-if="!portrait" class="portrait-img" src="../../static/logo.png" mode="aspectFit"></image>
+						<image v-if="portrait" class="portrait-img" :src="portrait" mode="aspectFit"></image>
 						<uni-icons v-else class="portrait-img" type="touxiang1" size="75" color="#fff"></uni-icons>
 					</view>
 				</view>
@@ -48,7 +48,7 @@
 		data() {
 			return {
 				title: '我的',
-				portrait: !false,
+				portrait: false,
 				userInfo: {}
 			}
 		},
@@ -59,10 +59,11 @@
 			var that = this;
 			that.$store.dispatch("cheack_page", 2);
 			uni.getStorage({
-				key: "user",
+				key: "WeChatInfoWeb",
 				success(res) {
 					console.log(res.data)
-					that.userInfo = res.data.userInfo
+					that.userInfo = res.data
+					that.portrait = res.data.wechat ? res.data.wechat.headimgurl : false
 				}
 			})
 		},

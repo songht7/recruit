@@ -13,7 +13,10 @@
 				</view>
 				<view class="b-row">
 					<uni-icons class="b-icon" type="shengri1" size="18" color="#fff"></uni-icons>
-					<input class="b-input" type="text" v-model="formData['brithday']" placeholder="生日" placeholder-style="color:#a9c4f6" />
+					<picker class="b-input" mode="date" :value="formData['brithday']" :start="startDate" :end="endDate" @change="bindDateChange">
+						<view>{{formData['brithday']}}</view>
+					</picker>
+					<!-- <input class="b-input" type="text" v-model="formData['brithday']" placeholder="生日" placeholder-style="color:#a9c4f6" /> -->
 				</view>
 				<!-- <view class="b-row">
 					<uni-icons class="b-icon" type="weizhi" size="18" color="#fff"></uni-icons>
@@ -25,7 +28,8 @@
 				</view>
 				<view class="b-row">
 					<uni-icons class="b-icon" type="dianhua" size="18" color="#fff"></uni-icons>
-					<input class="b-input" type="text" v-model="formData['phone']" placeholder="您的电话号" placeholder-style="color:#a9c4f6" />
+					<input class="b-input" type="number" maxlength="11" v-model="formData['phone']" placeholder="您的电话号"
+					 placeholder-style="color:#a9c4f6" />
 				</view>
 			</view>
 			<view class="about_self"><textarea v-model="formData['about_self']" auto-height placeholder-style="color:#a9c4f6"
@@ -65,7 +69,17 @@
 					<view class="his-row">
 						<view class="his-label">就读年份：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['school'][0]['start_time']" />
+							<!-- formData['school'][0]['start_time']-formData['school'][0]['end_time'] -->
+							<!-- <input class="his-input" type="text" v-model="formData['school'][0]['start_time']" /> -->
+							<picker class="his-input his-input-helf" mode="date" :value="formData['school'][0]['start_time']" :start="startDate"
+							 :end="endDate" @change="bindStartTime">
+								<view>{{formData['school'][0]['start_time']?formData['school'][0]['start_time'].split(" ")[0]:""}}</view>
+							</picker>
+							<view class="cut-val">至</view>
+							<picker class="his-input his-input-helf" mode="date" :value="formData['school'][0]['end_time']" :start="startDate"
+							 :end="endDate" @change="bindEndTime">
+								<view>{{formData['school'][0]['end_time']?formData['school'][0]['end_time'].split(" ")[0]:""}}</view>
+							</picker>
 						</view>
 					</view>
 					<!-- <view class="his-row">
@@ -94,7 +108,16 @@
 					<view class="his-row">
 						<view class="his-label">年份：</view>
 						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['project'][0]['start_time']" />
+							<!-- <input class="his-input" type="text" v-model="formData['project'][0]['start_time']" /> -->
+							<picker class="his-input his-input-helf" mode="date" :value="formData['project'][0]['start_time']" :start="startDate"
+							 :end="endDate" @change="bindStartTimeProject">
+								<view>{{formData['project'][0]['start_time']?formData['project'][0]['start_time'].split(" ")[0]:""}}</view>
+							</picker>
+							<view class="cut-val">至</view>
+							<picker class="his-input his-input-helf" mode="date" :value="formData['project'][0]['end_time']" :start="startDate"
+							 :end="endDate" @change="bindEndTimeProject">
+								<view>{{formData['project'][0]['end_time']?formData['project'][0]['end_time'].split(" ")[0]:""}}</view>
+							</picker>
 						</view>
 					</view>
 					<view class="his-row">
@@ -113,15 +136,49 @@
 </template>
 
 <script>
+	var graceChecker = require("@/common/graceChecker.js");
+	var rule = [{
+		name: "email",
+		checkType: "email",
+		checkRule: "",
+		errorMsg: "请填写正确的邮箱"
+	}, {
+		name: "phone",
+		checkType: "phoneno",
+		checkRule: "",
+		errorMsg: "请填写正确的手机号"
+	}];
+
+	function getDate(type) {
+		const date = new Date();
+
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+
+		if (type === 'start') {
+			year = year - 60;
+		} else if (type === 'end') {
+			year = year + 2;
+		}
+		month = month > 9 ? month : '0' + month;;
+		day = day > 9 ? day : '0' + day;
+
+		return `${year}-${month}-${day}`;
+	}
 	export default {
 		data() {
 			return {
 				loading: false,
 				title: '我的',
 				portrait: !false,
+				startDate: getDate('start'),
+				endDate: getDate('end'),
 				formData: {
 					name: "",
-					brithday: "",
+					brithday: getDate({
+						format: true
+					}),
 					email: "",
 					phone: "",
 					age_work: "",
@@ -134,8 +191,12 @@
 						"id": "",
 						"school": "",
 						"profession": "",
-						"start_time": "",
-						"end_time": ""
+						"start_time": getDate({
+							format: true
+						}),
+						"end_time": getDate({
+							format: true
+						})
 					}],
 					company: [{
 						"id": "",
@@ -164,46 +225,71 @@
 			that.editResume('GET');
 		},
 		methods: {
+			bindDateChange(e) {
+				this.formData['brithday'] = e.target.value
+			},
+			bindStartTime(e) {
+				this.formData['school'][0]['start_time'] = e.target.value
+			},
+			bindEndTime(e) {
+				this.formData['school'][0]['end_time'] = e.target.value
+			},
+			bindStartTimeProject(e) {
+				this.formData['project'][0]['start_time'] = e.target.value
+			},
+			bindEndTimeProject(e) {
+				this.formData['project'][0]['end_time'] = e.target.value
+			},
 			editResume(type) {
 				var that = this;
-				that.loading = true;
-				const _token = that.$store.state.testToken;
-				if (that.$store.state.isWeixin) {
-					_token = that.$store.state.weChatAuthInfo.token;
-				}
-				var parm = {
-					inter: "resume",
-					method: type,
-					header: {
-						token: _token
+				var _formData = that.formData;
+
+				var rules = [...rule];
+				var checkRes = type == "GET" ? true : graceChecker.check(_formData, rules);
+				if (checkRes) {
+					that.loading = true;
+					var _token = that.$store.state.testToken;
+					if (that.$store.state.isWeixin) {
+						_token = that.$store.state.weChatAuthInfo.token;
 					}
-				};
-				if (type == "PUT") {
-					parm["data"] = that.formData;
-				}
-				console.log("login:", parm)
-				parm["fun"] = function(res) {
-					console.log(res)
-					that.loading = false;
-					if (res.success) {
-						if (type == "GET" && res.data.info != false) {
-							that.formData = res.data.info;
+					var parm = {
+						inter: "resume",
+						method: type,
+						header: {
+							token: _token
+						}
+					};
+					if (type == "PUT") {
+						parm["data"] = _formData;
+					}
+					console.log("login:", parm)
+					parm["fun"] = function(res) {
+						console.log(res)
+						that.loading = false;
+						if (res.success) {
+							if (type == "GET" && res.data.info != false) {
+								that.formData = res.data.info;
+							} else if (type == "PUT") {
+								uni.showToast({
+									title: "简历编辑成功",
+									icon: "success"
+								});
+							}
 						} else {
 							uni.showToast({
-								title: "简历编辑成功",
-								icon: "success"
+								title: res.msg,
+								icon: "none"
 							});
 						}
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: "none"
-						});
-					}
-				};
-				that.$store.dispatch("getData", parm)
+					};
+					that.$store.dispatch("getData", parm)
+				} else {
+					uni.showToast({
+						title: graceChecker.error,
+						icon: "none"
+					});
+				}
 			}
-
 		}
 	}
 </script>
@@ -300,12 +386,21 @@
 
 	.his-val {
 		flex: 1;
+		display: flex;
+		justify-content: space-around;
+		flex-direction: row;
+		align-items: stretch;
 	}
 
 	.his-input {
 		width: 100%;
 		font-size: 32rpx;
 		border-bottom: 1px solid #7f7f7f;
+	}
+
+	.his-input-helf {
+		width: 45%;
+		text-align: center;
 	}
 
 	.submit-resume {

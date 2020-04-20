@@ -56,14 +56,22 @@
 		methods: {
 			getData() {
 				var that = this;
+				var _token = that.$store.state.testToken;
+				if (that.$store.state.isWeixin) {
+					_token = that.$store.state.weChatAuthInfo.token;
+				}
 				var parm = {
 					inter: "supportDtl",
-					parm: `?id=${that.id}`
+					parm: `?id=${that.id}`,
+					header: {
+						token: _token
+					}
 				};
 				parm["fun"] = function(res) {
 					console.log(res)
 					if (res.success) {
 						that.detail = res.data;
+						that.reumeIsSend = res.data.resume_article ? true : false;
 					}
 				};
 				that.$store.dispatch("getData", parm)
@@ -74,7 +82,7 @@
 					return
 				}
 				that.loading = true;
-				const _token = that.$store.state.testToken;
+				var _token = that.$store.state.testToken;
 				if (that.$store.state.isWeixin) {
 					_token = that.$store.state.weChatAuthInfo.token;
 				}

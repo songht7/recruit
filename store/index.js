@@ -29,7 +29,7 @@ const store = new Vuex.Store({
 		page_index: 0,
 		isWeixin: false,
 		weChatAuthInfo: {},
-		testToken: "ffec954829687fd4276085c27334234065a4702a"
+		testToken: "fe8e1471e602d29ee2864363248b8b56458a3afa"
 	},
 	mutations: {
 		switch_loading(state, status) {
@@ -108,7 +108,7 @@ const store = new Vuex.Store({
 			var user = "";
 			var _openid = "";
 			uni.getStorage({
-				key: "user",
+				key: "userWeb",
 				success: function(res) {
 					user = res.data;
 					let timestamp = Math.round(new Date().getTime() / 1000);
@@ -122,7 +122,7 @@ const store = new Vuex.Store({
 						} else {
 							//console.log("removeStorage-user")
 							uni.removeStorage({
-								key: "user"
+								key: "userWeb"
 							});
 							ctx.dispatch("menu_default");
 							user = {};
@@ -206,7 +206,7 @@ const store = new Vuex.Store({
 				if (res.success) {
 					ctx.state.weChatAuthInfo = res.data;
 					uni.setStorage({
-						key: 'WeChatInfo',
+						key: 'WeChatInfoWeb',
 						data: res.data,
 						success: function() {
 							//console.log('success');
@@ -242,7 +242,7 @@ const store = new Vuex.Store({
 			_data["fun"] = function(ress) {
 				if (ress.success) {
 					uni.removeStorage({
-						key: 'user',
+						key: 'userWeb',
 						success: function(res) {},
 						complete() {
 							ctx.commit("get_user", {})
@@ -253,7 +253,7 @@ const store = new Vuex.Store({
 						}
 					});
 					uni.removeStorage({
-						key: 'openid',
+						key: 'openidWeb',
 						success: function(res) {}
 					});
 				} else {

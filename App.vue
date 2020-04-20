@@ -6,17 +6,18 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-			this.$store.dispatch("isWeixin")
+			var that = this;
+			that.$store.dispatch("isWeixin")
 			let isWeixin = !!/micromessenger/i.test(navigator.userAgent.toLowerCase())
 			console.log("isWeixin:", isWeixin)
 			if (isWeixin) {
 				uni.getStorage({
-					key: 'WeChatInfo',
+					key: 'WeChatInfoWeb',
 					success(res) {
-						this.$store.state.weChatAuthInfo = res.data;
+						that.$store.state.weChatAuthInfo = res.data;
 					}
 				})
-				this.$store.dispatch("wxXCXAuth")
+				that.$store.dispatch("wxXCXAuth")
 			}
 		},
 		onHide: function() {
