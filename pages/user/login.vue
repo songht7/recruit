@@ -5,10 +5,16 @@
 				<view class="login-label"><text class="label">绑定关联手机号</text></view>
 
 				<view :class="['login-input',phoneErr?'phone-err':'']">
-					<input class="user-input" type="number" maxlength="11" @focus="onFocus" placeholder="手机号" v-model="formData['phone']" />
+					<view class="input-left">
+						<uni-icons type="p-shouji" size="18" color="#999"></uni-icons>
+						<input class="user-input" type="number" maxlength="11" @focus="onFocus" placeholder="手机号" v-model="formData['phone']" />
+					</view>
 				</view>
 				<view class="login-input">
-					<input class="user-input" type="text" maxlength="6" v-model="formData['code']" placeholder="验证码" />
+					<view class="input-left">
+						<uni-icons type="yanzhengma" size="18" color="#999"></uni-icons>
+						<input class="user-input" type="text" maxlength="6" v-model="formData['code']" placeholder="验证码" />
+					</view>
 					<view :class="['get-code',seandCode?'loading':'']" @click="getCode">{{seandCode?count+'s 重新获取':'获取验证码'}}</view>
 				</view>
 				<view class="login-btns">
@@ -205,25 +211,32 @@
 	}
 
 	.label {
-		font-size: 70rpx;
+		font-size: 45rpx;
 		color: #000;
 	}
 
 	.sub-label {
-		font-size: 42rpx;
+		font-size: 35rpx;
 		color: #848383;
 	}
 
 	.login-input {
 		padding: 10rpx;
-		border: 2rpx solid #eee;
+		border-bottom: 2rpx solid #eee;
 		display: flex;
 		justify-content: space-between;
 		flex-direction: row;
 		align-items: center;
 		align-content: center;
 		margin-bottom: 30rpx;
-		border-radius: 10rpx;
+	}
+
+	.input-left {
+		display: flex;
+		justify-content: flex-start;
+		flex-direction: row;
+		align-items: center;
+		align-content: center;
 	}
 
 	.phone-err {
@@ -232,8 +245,9 @@
 
 	.user-input {
 		line-height: 2;
-		font-size: 40rpx;
+		font-size: 34rpx;
 		color: #666;
+		padding: 0 10rpx;
 	}
 
 	.login-btns {
@@ -249,7 +263,7 @@
 		line-height: 2;
 		border: 2rpx solid #3a78ea;
 		color: #FFFFFF;
-		font-size: 50rpx;
+		font-size: 40rpx;
 		display: flex;
 		align-items: center;
 		align-content: center;

@@ -76,11 +76,11 @@
 	.filter-btn {
 		padding: 5rpx 10rpx;
 		margin: 0 10rpx;
-		font-size: 40rpx;
+		font-size: 36rpx;
 	}
 
 	.filter-right .filter-btn {
-		font-size: 35rpx;
+		font-size: 34rpx;
 		background: #f7f7f7;
 		padding: 2rpx 15rpx;
 		border-radius: 10rpx;
@@ -99,6 +99,6 @@
 	}
 
 	.active {
-		font-weight: 600;
+		font-weight: 500;
 	}
 </style>

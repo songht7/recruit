@@ -67,18 +67,29 @@
 						</view>
 					</view>
 					<view class="his-row">
+						<view class="his-label">学位：</view>
+						<view class="his-val">
+							<picker class="his-input" @change="bindEduChange" :value="eduIndex" :range="educationArr" range-key="name">
+								<view class="pick-val">{{formData['education']}}</view>
+							</picker>
+							<!-- <picker class="his-input" mode="date" :value="formData['education']" :start="startDate" :end="endDate" @change="bindDateChange">
+						<view>{{formData['education']}}</view>
+					</picker> -->
+						</view>
+					</view>
+					<view class="his-row">
 						<view class="his-label">就读年份：</view>
 						<view class="his-val">
 							<!-- formData['school'][0]['start_time']-formData['school'][0]['end_time'] -->
 							<!-- <input class="his-input" type="text" v-model="formData['school'][0]['start_time']" /> -->
 							<picker class="his-input his-input-helf" mode="date" :value="formData['school'][0]['start_time']" :start="startDate"
 							 :end="endDate" @change="bindStartTime">
-								<view>{{formData['school'][0]['start_time']?formData['school'][0]['start_time'].split(" ")[0]:""}}</view>
+								<view class="pick-val">{{formData['school'][0]['start_time']?formData['school'][0]['start_time'].split(" ")[0]:""}}</view>
 							</picker>
 							<view class="cut-val">至</view>
 							<picker class="his-input his-input-helf" mode="date" :value="formData['school'][0]['end_time']" :start="startDate"
 							 :end="endDate" @change="bindEndTime">
-								<view>{{formData['school'][0]['end_time']?formData['school'][0]['end_time'].split(" ")[0]:""}}</view>
+								<view class="pick-val">{{formData['school'][0]['end_time']?formData['school'][0]['end_time'].split(" ")[0]:""}}</view>
 							</picker>
 						</view>
 					</view>
@@ -111,19 +122,19 @@
 							<!-- <input class="his-input" type="text" v-model="formData['project'][0]['start_time']" /> -->
 							<picker class="his-input his-input-helf" mode="date" :value="formData['project'][0]['start_time']" :start="startDate"
 							 :end="endDate" @change="bindStartTimeProject">
-								<view>{{formData['project'][0]['start_time']?formData['project'][0]['start_time'].split(" ")[0]:""}}</view>
+								<view class="pick-val">{{formData['project'][0]['start_time']?formData['project'][0]['start_time'].split(" ")[0]:""}}</view>
 							</picker>
 							<view class="cut-val">至</view>
 							<picker class="his-input his-input-helf" mode="date" :value="formData['project'][0]['end_time']" :start="startDate"
 							 :end="endDate" @change="bindEndTimeProject">
-								<view>{{formData['project'][0]['end_time']?formData['project'][0]['end_time'].split(" ")[0]:""}}</view>
+								<view class="pick-val">{{formData['project'][0]['end_time']?formData['project'][0]['end_time'].split(" ")[0]:""}}</view>
 							</picker>
 						</view>
 					</view>
 					<view class="his-row">
 						<view class="his-label">工作内容：</view>
 						<view class="his-val">
-							<textarea class="his-input" v-model="formData['project'][0]['overview']" auto-height placeholder-style="color:#a9c4f6"></textarea>
+							<textarea class="his-input overview" v-model="formData['project'][0]['overview']" auto-height placeholder-style="color:#a9c4f6"></textarea>
 						</view>
 					</view>
 				</view>
@@ -174,6 +185,22 @@
 				portrait: !false,
 				startDate: getDate('start'),
 				endDate: getDate('end'),
+				educationArr: [{
+					name: '初中及以下'
+				}, {
+					name: '中专/中技'
+				}, {
+					name: '高中'
+				}, {
+					name: '大专'
+				}, {
+					name: '本科'
+				}, {
+					name: '硕士'
+				}, {
+					name: '博士'
+				}],
+				eduIndex: 2,
 				formData: {
 					name: "",
 					brithday: getDate({
@@ -182,7 +209,7 @@
 					email: "",
 					phone: "",
 					age_work: "",
-					education: "",
+					education: "高中",
 					about_self: "",
 					sex: "",
 					post: "", //期望岗位
@@ -239,6 +266,10 @@
 			},
 			bindEndTimeProject(e) {
 				this.formData['project'][0]['end_time'] = e.target.value
+			},
+			bindEduChange(e) {
+				this.eduIndex = e.target.value;
+				this.formData['education'] = this.educationArr[e.target.value]['name'];
 			},
 			editResume(type) {
 				var that = this;
@@ -380,8 +411,8 @@
 	}
 
 	.his-label {
-		width: 25%;
-		font-size: 32rpx;
+		/* width: 25%; */
+		font-size: 36rpx;
 	}
 
 	.his-val {
@@ -394,13 +425,21 @@
 
 	.his-input {
 		width: 100%;
-		font-size: 32rpx;
+		font-size: 36rpx;
 		border-bottom: 1px solid #7f7f7f;
+		text-align: center;
+		color: #666;
+	}
+	.pick-val{
+		font-size: 36rpx;
 	}
 
 	.his-input-helf {
 		width: 45%;
 		text-align: center;
+	}
+	.overview{
+		text-align: left;
 	}
 
 	.submit-resume {

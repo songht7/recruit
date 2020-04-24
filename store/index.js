@@ -29,7 +29,8 @@ const store = new Vuex.Store({
 		page_index: 0,
 		isWeixin: false,
 		weChatAuthInfo: {},
-		testToken: "fe8e1471e602d29ee2864363248b8b56458a3afa"
+		reOauth: false,
+		testToken: "a9441b4727ef2d79d9c074c21bb9c32c4f215e07"
 	},
 	mutations: {
 		switch_loading(state, status) {
@@ -175,7 +176,7 @@ const store = new Vuex.Store({
 		},
 		wxXCXAuth(ctx) {
 			console.log("--wxXCXAuth--")
-			let redirect_uri = window.location.href;
+			let redirect_uri = ctx.state.interface.domain;
 			let REDIRECT_URI = encodeURIComponent(redirect_uri), //授权后重定向的回调链接地址， 请使用 urlEncode 对链接进行处理
 				scope = "snsapi_userinfo", //snsapi_base，snsapi_userinfo （弹出授权页面，获取更多信息）
 				state = "STATE"; //重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
@@ -190,7 +191,6 @@ const store = new Vuex.Store({
 				let code = unescape(r[2])
 				console.log("get-wxCode-success:", code)
 				ctx.dispatch("getWeChatInfo", code)
-
 			} else {
 				console.log("get-wxCode-fail")
 				window.location.href = _url;
@@ -205,6 +205,7 @@ const store = new Vuex.Store({
 				console.log("getWeChatInfo:", res)
 				if (res.success) {
 					ctx.state.weChatAuthInfo = res.data;
+					ctx.state.deathline = false;
 					uni.setStorage({
 						key: 'WeChatInfoWeb',
 						data: res.data,

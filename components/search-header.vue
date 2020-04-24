@@ -62,7 +62,7 @@
 	}
 
 	.title {
-		font-size: 50rpx;
+		font-size: 46rpx;
 		color: #FFFFFF;
 		width: 50%;
 	}

@@ -142,12 +142,12 @@
 	}
 
 	.job-title {
-		font-size: 70rpx;
+		font-size: 50rpx;
 		color: #000;
 	}
 
 	.job-price {
-		font-size: 45rpx;
+		font-size: 32rpx;
 		color: #3b78ea;
 	}
 
@@ -162,7 +162,7 @@
 	.tag {
 		padding: 2rpx;
 		margin-right: 20rpx;
-		font-size: 40rpx;
+		font-size: 32rpx;
 		color: #000000;
 	}
 
@@ -191,8 +191,8 @@
 	}
 
 	.portrait {
-		width: 150rpx;
-		height: 150rpx;
+		width: 120rpx;
+		height: 120rpx;
 		border-radius: 50%;
 		overflow: hidden;
 	}
@@ -212,7 +212,7 @@
 	}
 
 	.manager-name {
-		font-size: 50rpx;
+		font-size: 34rpx;
 		color: #000;
 	}
 

@@ -79,17 +79,17 @@
 	}
 
 	.job-name {
-		font-size: 38rpx;
+		font-size: 32rpx;
 		color: #000;
 	}
 
 	.job-price {
-		font-size: 36rpx;
+		font-size: 32rpx;
 		color: #3b78ea;
 	}
 
 	.job-overview {
-		font-size: 30rpx;
+		font-size: 28rpx;
 	}
 
 	.job-tags {
@@ -102,7 +102,7 @@
 
 	.tag {
 		background: #f7f7f7;
-		font-size: 35rpx;
+		font-size: 28rpx;
 		padding: 2rpx 10rpx;
 		margin-right: 20rpx;
 	}

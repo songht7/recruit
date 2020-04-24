@@ -14,60 +14,127 @@
 				<view class="user-info-right">
 					<view class="portrait">
 						<image v-if="portrait" class="portrait-img" :src="portrait" mode="aspectFit"></image>
-						<uni-icons v-else class="portrait-img" type="touxiang1" size="75" color="#fff"></uni-icons>
+						<uni-icons v-else class="portrait-img" type="touxiang1" size="60" color="#fff"></uni-icons>
 					</view>
 				</view>
 			</view>
-			<!-- <view class="reume-count">
+			<view class="reume-count">
 				<view class="count-block">
-					<view class="count-numb">1</view>
+					<view class="count-numb">{{mTotal}}</view>
 					<view class="count-label">近一月</view>
 				</view>
 				<view class="count-block">
-					<view class="count-numb">10</view>
+					<view class="count-numb">{{total}}</view>
 					<view class="count-label">投递总数</view>
 				</view>
-			</view> -->
+			</view>
 		</view>
 		<view class="user-main">
 			<!-- <view class="record">
 				<view class="record-val">附件简历</view>
 				<view class="record-info">未上传</view>
-			</view>
-			<view class="record">
-				<view class="record-val record-apply">申请记录</view>
-				<view class="record-info">xxxxxxxx</view>
 			</view> -->
+			<view class="record" @click="navigateTo('/pages/user/record')">
+				<view class="record-val record-apply">申请记录</view>
+				<view class="record-info">{{total}} 条</view>
+			</view>
 		</view>
 		<tab-bar></tab-bar>
 	</view>
 </template>
 
 <script>
+	import moment from "moment";
 	export default {
 		data() {
 			return {
 				title: '我的',
 				portrait: false,
-				userInfo: {}
+				userInfo: {},
+				total: 0,
+				mTotal: 0
 			}
 		},
 		onLoad() {
-
+			//this.getData('accountSupports');
 		},
 		onShow() {
 			var that = this;
 			that.$store.dispatch("cheack_page", 2);
-			uni.getStorage({
-				key: "WeChatInfoWeb",
-				success(res) {
-					console.log(res.data)
-					that.userInfo = res.data
-					that.portrait = res.data.wechat ? res.data.wechat.headimgurl : false
-				}
-			})
+			var _weChatAuthInfo = that.$store.state.weChatAuthInfo;
+			if (_weChatAuthInfo.token) {
+				that.userInfo = _weChatAuthInfo;
+				that.portrait = _weChatAuthInfo.wechat ? _weChatAuthInfo.wechat.headimgurl : false;
+			}
+			that.getData('supportsTotal', 'total');
+			let Today = that.getToday();
+			let LastMonthDays = that.getLastMonthDays();
+			that.getData('supportsTotal', 'mTotal',
+				`?start_time=${LastMonthDays.starttime.split(" ")[0]}&end_time=${Today.starttime.split(" ")[0]}`);
 		},
 		methods: {
+			getData(url, type, parms) {
+				var that = this;
+				var _token = that.$store.state.testToken;
+				if (that.$store.state.isWeixin) {
+					_token = that.$store.state.weChatAuthInfo.token;
+				}
+				var parm = {
+					inter: url,
+					header: {
+						token: _token
+					},
+					parm: parms
+				};
+				parm["fun"] = function(res) {
+					if (res.success) {
+						if (type == 'mTotal') {
+							that.mTotal = res.data.total;
+						} else {
+							that.total = res.data.total;
+						}
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: "none"
+						});
+					}
+				};
+				that.$store.dispatch("getData", parm)
+			},
+			getToday() { // 获取今日的开始结束时间
+				let obj = {
+					starttime: '',
+					endtime: ''
+				}
+				obj.starttime = moment(moment().startOf("day").valueOf()).format("YYYY-MM-DD HH:mm:ss");
+				obj.endtime = moment(moment().valueOf()).format("YYYY-MM-DD HH:mm:ss");
+				return obj
+			},
+			getCurrMonthDays() { // 获取当前月的开始结束时间
+				let obj = {
+					starttime: '',
+					endtime: ''
+				}
+				obj.starttime = moment(moment().month(moment().month()).startOf('month').valueOf()).format('YYYY-MM-DD HH:mm:ss');
+				obj.endtime = moment(moment().month(moment().month()).endOf('month').valueOf()).format('YYYY-MM-DD HH:mm:ss');
+				return obj
+			},
+			getLastMonthDays() { // 获取上一个月的开始结束时间
+				let obj = {
+					starttime: '',
+					endtime: ''
+				}
+				obj.starttime = moment(moment().month(moment().month() - 1).startOf('month').valueOf()).format(
+					'YYYY-MM-DD HH:mm:ss');
+				obj.endtime = moment(moment().month(moment().month() - 1).endOf('month').valueOf()).format('YYYY-MM-DD HH:mm:ss');
+				return obj
+			},
+			navigateTo(url) {
+				uni.navigateTo({
+					url: url
+				})
+			},
 			userBinding() {
 				uni.navigateTo({
 					url: '/pages/user/login'
@@ -132,8 +199,8 @@
 	}
 
 	.portrait {
-		width: 150rpx;
-		height: 150rpx;
+		width: 120rpx;
+		height: 120rpx;
 		border-radius: 50%;
 		overflow: hidden;
 	}
@@ -194,7 +261,7 @@
 	}
 
 	.record-val {
-		font-size: 45rpx;
+		font-size: 32rpx;
 		color: #2d2d2d;
 	}
 
@@ -213,7 +280,7 @@
 
 	.record-info {
 		text-align: right;
-		font-size: 40rpx;
+		font-size: 30rpx;
 		color: #9fa0a0;
 		padding-right: 50rpx;
 	}

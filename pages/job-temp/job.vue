@@ -128,17 +128,14 @@
 				var enterprise_id = that.$store.state.enterprise_id;
 				that.title = that.pageTitle ? that.pageTitle : "人力资源公司";
 				var bar_index = that.$store.getters.bar_index.toString();
-				console.log(123)
 				if (enterprise_id && bar_index == "1") {
 					console.log(enterprise_id, bar_index)
 				}
-				console.log(456)
 				//that.$store.commit("set_company_name", "人力资源公司");
 				if (type == 'keyword' && that.formData['keyword'] != "") {
 					that.searchShow = false;
 					that.focus = false;
 				}
-				console.log(789)
 				var _token = that.$store.state.testToken;
 				console.log("testToken_token：", _token)
 				if (that.$store.state.isWeixin) {

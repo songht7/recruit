@@ -57,6 +57,18 @@
 					}
 				}
 			}
+		}, {
+			"path": "pages/user/record",
+			"style": {
+				"navigationBarTitleText": "申请记录",
+				// "enablePullDownRefresh": true,
+				"navigationStyle": "custom"
+				// ,"app-plus": {
+				// 	"titleNView": {
+				// 		"type": "transparent"
+				// 	}
+				// }
+			}
 		}
 	],
 	"globalStyle": {
