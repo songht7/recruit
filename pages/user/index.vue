@@ -39,12 +39,22 @@
 				<view class="record-info">{{total}} 条</view>
 			</view>
 		</view>
+		<view class="user-help" @click="userHelp">
+			<uni-icons type="gth" size="18" color="#2d2d2d"></uni-icons>
+			<view class="help-label">帮助于反馈</view>
+		</view>
+		<uni-popup :show="popupType === 'help'" position="middle" width="60%" mode="fixed" @hidePopup="togglePopup('')">
+			<view class="help-main">
+				如帮助，请发送邮件至 <a style='color: #666666;text-decoration: none;' href="mailto:test@sian.com">test@sian.com</a>
+			</view>
+		</uni-popup>
 		<tab-bar></tab-bar>
 	</view>
 </template>
 
 <script>
 	import moment from "moment";
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	export default {
 		data() {
 			return {
@@ -52,8 +62,12 @@
 				portrait: false,
 				userInfo: {},
 				total: 0,
-				mTotal: 0
+				mTotal: 0,
+				popupType: ""
 			}
+		},
+		components: {
+			uniPopup
 		},
 		onLoad() {
 			//this.getData('accountSupports');
@@ -101,6 +115,13 @@
 					}
 				};
 				that.$store.dispatch("getData", parm)
+			},
+			userHelp() {
+				var that = this;
+				that.popupType = "help";
+			},
+			togglePopup(type) {
+				this.popupType = "";
 			},
 			getToday() { // 获取今日的开始结束时间
 				let obj = {
@@ -283,5 +304,22 @@
 		font-size: 30rpx;
 		color: #9fa0a0;
 		padding-right: 50rpx;
+	}
+
+	.user-help {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		align-content: center;
+		flex-direction: row;
+		position: absolute;
+		bottom: 12%;
+		left: 30rpx;
+	}
+
+	.help-label {
+		font-size: 28rpx;
+		color: #2d2d2d;
+		padding: 0 10rpx;
 	}
 </style>

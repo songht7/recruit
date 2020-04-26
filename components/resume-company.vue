@@ -16,13 +16,13 @@
 			<view class="his-label">在职时间：</view>
 			<view class="his-val">
 				<!-- <input class="his-input" type="text" v-model="formData['project']['start_time']" /> -->
-				<picker class="his-input his-input-helf" mode="date" :value="data['start_time']" :start="startDate" :end="endDate"
-				 @change="bindStartTimeProject">
+				<picker class="his-input his-input-helf" mode="date" fields="month" :value="data['start_time']" :start="startDate"
+				 :end="endDate" @change="bindStartTimeProject">
 					<view class="pick-val">{{data['start_time']?data['start_time'].split(" ")[0]:""}}</view>
 				</picker>
 				<view class="cut-val">至</view>
-				<picker class="his-input his-input-helf" mode="date" :value="data['end_time']" :start="startDate" :end="endDate"
-				 @change="bindEndTimeProject">
+				<picker class="his-input his-input-helf" mode="date" fields="month" :value="data['end_time']" :start="startDate"
+				 :end="endDate" @change="bindEndTimeProject">
 					<view class="pick-val">{{data['end_time']?data['end_time'].split(" ")[0]:""}}</view>
 				</picker>
 			</view>

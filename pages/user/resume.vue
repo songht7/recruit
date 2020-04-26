@@ -86,12 +86,12 @@
 						<view class="his-val">
 							<!-- formData['school'][0]['start_time']-formData['school'][0]['end_time'] -->
 							<!-- <input class="his-input" type="text" v-model="formData['school'][0]['start_time']" /> -->
-							<picker class="his-input his-input-helf" mode="date" :value="formData['school'][0]['start_time']" :start="startDate"
+							<picker class="his-input his-input-helf" mode="date" fields="month" :value="formData['school'][0]['start_time']" :start="startDate"
 							 :end="endDate" @change="bindStartTime">
 								<view class="pick-val">{{formData['school'][0]['start_time']?formData['school'][0]['start_time'].split(" ")[0]:""}}</view>
 							</picker>
 							<view class="cut-val">至</view>
-							<picker class="his-input his-input-helf" mode="date" :value="formData['school'][0]['end_time']" :start="startDate"
+							<picker class="his-input his-input-helf" mode="date" fields="month" :value="formData['school'][0]['end_time']" :start="startDate"
 							 :end="endDate" @change="bindEndTime">
 								<view class="pick-val">{{formData['school'][0]['end_time']?formData['school'][0]['end_time'].split(" ")[0]:""}}</view>
 							</picker>
