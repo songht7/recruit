@@ -1785,3 +1785,104 @@ checkbox-group label {
 	left: 0;
 	transform: translateY(50%);
 }
+
+/*resume*/
+.his-row {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	padding: 15rpx 0;
+}
+.his-row-company-info{
+	align-items: flex-start;
+}
+
+.his-label {
+	/* width: 25%; */
+	font-size: 28rpx;
+}
+
+.his-val {
+	flex: 1;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.his-input {
+	width: 100%;
+	font-size: 28rpx;
+	border-bottom: 1px solid #7f7f7f;
+	text-align: center;
+	color: #666;
+}
+
+.pick-val {
+	font-size: 28rpx;
+}
+
+.his-input-helf {
+	width: 45%;
+	text-align: center;
+}
+
+.overview {
+	text-align: left;
+}
+
+.submit-resume {
+	width: 100%;
+	background: #3a78ea;
+	color: #FFFFFF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	flex-direction: row;
+	line-height: 3;
+	font-size: 32rpx;
+	border-radius: 10rpx;
+}
+
+.list--job {
+	padding-bottom: 15rpx;
+	margin-bottom: 15rpx;
+	border-bottom: 1px dashed #000;
+}
+
+.list--job:last-child {
+	border-bottom: none
+}
+
+.job-txt-area {
+	/* height: 48rpx; */
+	line-height: 1.4;
+	position: relative;
+	width: 100%;
+}
+
+.text-box {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.height-btn {
+	position: relative;
+	top: 5rpx;
+}
+
+.comp-edit {
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+}
+
+.c-edit {
+	margin: 0 10rpx;
+}

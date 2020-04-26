@@ -8,32 +8,36 @@
 			<view class="user-name">用户名</view> -->
 			<view class="u-base-info">
 				<view class="b-row">
-					<uni-icons class="b-icon" type="touxiang1" size="18" color="#fff"></uni-icons>
+					<uni-icons class="b-icon" type="touxiang1" size="26" color="#fff"></uni-icons>
 					<input class="b-input" type="text" v-model="formData['name']" placeholder="姓名" placeholder-style="color:#a9c4f6" />
 				</view>
 				<view class="b-row">
-					<uni-icons class="b-icon" type="shengri1" size="18" color="#fff"></uni-icons>
+					<uni-icons class="b-icon" type="shengri1" size="26" color="#fff"></uni-icons>
 					<picker class="b-input" mode="date" :value="formData['brithday']" :start="startDate" :end="endDate" @change="bindDateChange">
 						<view>{{formData['brithday']}}</view>
 					</picker>
 					<!-- <input class="b-input" type="text" v-model="formData['brithday']" placeholder="生日" placeholder-style="color:#a9c4f6" /> -->
 				</view>
 				<!-- <view class="b-row">
-					<uni-icons class="b-icon" type="weizhi" size="18" color="#fff"></uni-icons>
+					<uni-icons class="b-icon" type="weizhi" size="26" color="#fff"></uni-icons>
 					<input class="b-input" type="text" v-model="formData['city']" />
 				</view> -->
 				<view class="b-row">
-					<uni-icons class="b-icon" type="sina" size="18" color="#fff"></uni-icons>
+					<uni-icons class="b-icon" type="sina" size="26" color="#fff"></uni-icons>
 					<input class="b-input" type="text" v-model="formData['email']" placeholder="EMail" placeholder-style="color:#a9c4f6" />
 				</view>
 				<view class="b-row">
-					<uni-icons class="b-icon" type="dianhua" size="18" color="#fff"></uni-icons>
+					<uni-icons class="b-icon" type="dianhua" size="26" color="#fff"></uni-icons>
 					<input class="b-input" type="number" maxlength="11" v-model="formData['phone']" placeholder="您的电话号"
 					 placeholder-style="color:#a9c4f6" />
 				</view>
 			</view>
-			<view class="about_self"><textarea v-model="formData['about_self']" auto-height placeholder-style="color:#a9c4f6"
-				 placeholder="自我简介"></textarea></view>
+			<view :class="['about_self','text-box',aboutSelfAutoHeight?'autoHeight':'']">
+				<textarea :class="['job-txt-area']" v-model="formData['about_self']" auto-height placeholder-style="color:#a9c4f6"
+				 placeholder="自我简介" @focus="txtAreaSwich('about_self','focus')"></textarea>
+				<uni-icons :class="['height-btn',aboutSelfAutoHeight?'height-close':'']" type="jiantou11" size="18" color="#fff"
+				 @click="txtAreaSwich('about_self')"></uni-icons>
+			</view>
 		</view>
 		<view class="history">
 			<!-- <template>
@@ -67,7 +71,7 @@
 						</view>
 					</view>
 					<view class="his-row">
-						<view class="his-label">学位：</view>
+						<view class="his-label">最高学位：</view>
 						<view class="his-val">
 							<picker class="his-input" @change="bindEduChange" :value="eduIndex" :range="educationArr" range-key="name">
 								<view class="pick-val">{{formData['education']}}</view>
@@ -103,40 +107,57 @@
 			</template>
 			<template>
 				<view class="his-block">
-					<view class="his-title">职业技能</view>
-					<view class="his-row">
-						<view class="his-label">公司：</view>
-						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['project'][0]['name']" />
+					<view class="his-title">
+						工作经历
+						<view class="add-row">
+							<text @click='editCompany("add")' style="color: #999;">添加经历</text>
+							<!-- <uni-icons type="jia1" size="18" color="#666" ></uni-icons> -->
 						</view>
 					</view>
-					<!-- <view class="his-row">
-						<view class="his-label">职位：</view>
-						<view class="his-val">
-							<input class="his-input" type="text" v-model="formData['project'][0]['overview']" />
+					<block v-for="(obj,k) in formData.company" v-if="obj.delete!=1" :key="k">
+						<view class="list--job">
+							<view class="his-row">
+								<view class="his-label">所在公司：</view>
+								<view class="his-val">
+									<view class="his-input">{{obj['company']}}</view>
+								</view>
+							</view>
+							<view class="his-row">
+								<view class="his-label">所在职位：</view>
+								<view class="his-val">
+									<view class="his-input">{{obj['job']}}</view>
+								</view>
+							</view>
+							<view class="his-row">
+								<view class="his-label">在职时间：</view>
+								<view class="his-val">
+									<!-- <input class="his-input" type="text" v-model="formData['project']['start_time']" /> -->
+									<view class="his-input his-input-helf">{{obj['start_time']?obj['start_time'].split(" ")[0]:""}}</view>
+									<view class="cut-val">至</view>
+									<view class="his-input his-input-helf">{{obj['end_time']?obj['end_time'].split(" ")[0]:""}}</view>
+								</view>
+							</view>
+							<view class="his-row his-row-company-info">
+								<view class="his-label">工作内容：</view>
+								<view :class="['his-val','his-val-company-info','text-box',obj['open']?'':'his-val-company-hide']">
+									<!-- <rich-text class="his-input his-val-company-info overview" :nodes="obj['infomation']?obj['infomation']:''"></rich-text> -->
+									<textarea class="his-input overview" v-model="obj['infomation']" auto-height placeholder-style="color:#a9c4f6"
+									 disabled></textarea>
+									<uni-icons :class="['height-btn',obj['open']?'height-close':'']" type="jiantou11" size="18" color="#999"
+									 @click="txtAreaSwich('company','',k)"></uni-icons>
+								</view>
+							</view>
+							<view class="comp-edit">
+								<uni-icons class="c-edit" type="bianji" size="14" color="#666" @click='editCompany("edit",obj.id,k)'></uni-icons>
+								<uni-icons class="c-edit" type="shanchu1" size="14" color="#f40" @click='editCompany("del",obj.id,k)'></uni-icons>
+							</view>
 						</view>
-					</view> -->
-					<view class="his-row">
-						<view class="his-label">年份：</view>
-						<view class="his-val">
-							<!-- <input class="his-input" type="text" v-model="formData['project'][0]['start_time']" /> -->
-							<picker class="his-input his-input-helf" mode="date" :value="formData['project'][0]['start_time']" :start="startDate"
-							 :end="endDate" @change="bindStartTimeProject">
-								<view class="pick-val">{{formData['project'][0]['start_time']?formData['project'][0]['start_time'].split(" ")[0]:""}}</view>
-							</picker>
-							<view class="cut-val">至</view>
-							<picker class="his-input his-input-helf" mode="date" :value="formData['project'][0]['end_time']" :start="startDate"
-							 :end="endDate" @change="bindEndTimeProject">
-								<view class="pick-val">{{formData['project'][0]['end_time']?formData['project'][0]['end_time'].split(" ")[0]:""}}</view>
-							</picker>
-						</view>
-					</view>
-					<view class="his-row">
-						<view class="his-label">工作内容：</view>
-						<view class="his-val">
-							<textarea class="his-input overview" v-model="formData['project'][0]['overview']" auto-height placeholder-style="color:#a9c4f6"></textarea>
-						</view>
-					</view>
+					</block>
+					<block v-if="popupType === 'company'">
+						<uni-popup :show="popupType === 'company'" position="middle" width="90%" mode="fixed">
+							<resume-company :data="companyTemp" @hidePopup="togglePopup('')" @addCompany="addCompany"></resume-company>
+						</uni-popup>
+					</block>
 				</view>
 			</template>
 			<view class="submit-resume" @click="editResume('PUT')">
@@ -147,6 +168,8 @@
 </template>
 
 <script>
+	import ResumeCompany from '@/components/resume-company.vue'
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	var graceChecker = require("@/common/graceChecker.js");
 	var rule = [{
 		name: "email",
@@ -177,6 +200,15 @@
 
 		return `${year}-${month}-${day}`;
 	}
+	var comTemp = {
+		"id": "",
+		"company": "",
+		"job": "",
+		"start_time": "",
+		"end_time": "",
+		"infomation": "",
+		"delete": 0
+	}
 	export default {
 		data() {
 			return {
@@ -201,6 +233,7 @@
 					name: '博士'
 				}],
 				eduIndex: 2,
+				companyTemp: comTemp,
 				formData: {
 					name: "",
 					brithday: getDate({
@@ -225,14 +258,7 @@
 							format: true
 						})
 					}],
-					company: [{
-						"id": "",
-						"company": "",
-						"job": "",
-						"start_time": "",
-						"end_time": "",
-						"infomation": ""
-					}],
+					company: [],
 					project: [{
 						"id": "",
 						"name": "",
@@ -240,8 +266,16 @@
 						"start_time": "",
 						"end_time": ""
 					}]
-				}
+				},
+				aboutSelfAutoHeight: false,
+				popupType: "",
+				editType: "",
+				editIndex: 0,
 			}
+		},
+		components: {
+			ResumeCompany,
+			uniPopup
 		},
 		onLoad() {
 
@@ -252,6 +286,72 @@
 			that.editResume('GET');
 		},
 		methods: {
+			txtAreaSwich(obj, type, index) {
+				switch (obj) {
+					case 'about_self':
+						if (type == 'focus') {
+							this.aboutSelfAutoHeight = true;
+						} else {
+							this.aboutSelfAutoHeight = !this.aboutSelfAutoHeight;
+						}
+						break;
+					case 'company':
+						this.formData.company[index]['open'] = !this.formData.company[index]['open'];
+						break;
+					default:
+						break;
+				}
+			},
+			editCompany(type, id, index) {
+				var that = this;
+				that.editType = type;
+				switch (type) {
+					case 'del':
+						//that.formData.company = that.formData.company.filter((obj, k) => k != index)
+						that.formData.company.map((obj, k) => {
+							if (k == index) {
+								obj["delete"] = 1;
+							}
+						})
+						break;
+					case 'add':
+						that.companyTemp = {
+							"id": "",
+							"company": "",
+							"job": "",
+							"start_time": "",
+							"end_time": "",
+							"infomation": ""
+						};
+						that.popupType = "company";
+						break;
+					case 'edit':
+						that.editIndex = index;
+						that.companyTemp = that.formData.company[index];
+						that.popupType = "company";
+						break;
+					default:
+						break;
+				}
+			},
+			addCompany() {
+				var that = this;
+				console.log(that.editType)
+				switch (that.editType) {
+					case 'edit':
+						that.formData.company[that.editIndex] = that.companyTemp;
+						break;
+					case 'add':
+						that.formData.company.push(that.companyTemp);
+						break;
+					default:
+						break;
+				}
+				that.popupType = "";
+			},
+			togglePopup(type) {
+				this.popupType = "";
+			},
 			bindDateChange(e) {
 				this.formData['brithday'] = e.target.value
 			},
@@ -261,12 +361,6 @@
 			bindEndTime(e) {
 				this.formData['school'][0]['end_time'] = e.target.value
 			},
-			bindStartTimeProject(e) {
-				this.formData['project'][0]['start_time'] = e.target.value
-			},
-			bindEndTimeProject(e) {
-				this.formData['project'][0]['end_time'] = e.target.value
-			},
 			bindEduChange(e) {
 				this.eduIndex = e.target.value;
 				this.formData['education'] = this.educationArr[e.target.value]['name'];
@@ -274,7 +368,6 @@
 			editResume(type) {
 				var that = this;
 				var _formData = that.formData;
-
 				var rules = [...rule];
 				var checkRes = type == "GET" ? true : graceChecker.check(_formData, rules);
 				if (checkRes) {
@@ -299,6 +392,9 @@
 						that.loading = false;
 						if (res.success) {
 							if (type == "GET" && res.data.info != false) {
+								res.data.info.company.map((obj, k) => {
+									obj["open"] = false;
+								})
 								that.formData = res.data.info;
 							} else if (type == "PUT") {
 								uni.showToast({
@@ -356,7 +452,7 @@
 
 	.b-row {
 		width: 100%;
-		padding: 10rpx 0;
+		padding: 10rpx 0 15rpx;
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
@@ -371,6 +467,7 @@
 
 	.b-input {
 		flex: 75%;
+		font-size: 36rpx;
 		border-bottom: 1px solid #a9c4f6;
 		color: #FFFFFF;
 		text-align: center;
@@ -383,6 +480,22 @@
 		color: #FFFFFF;
 		padding: 10rpx;
 		margin: 20rpx 0;
+		height: 40rpx;
+		overflow: hidden;
+	}
+
+	.his-val-company-info {
+		border-bottom: 1px solid #7f7f7f;
+		line-height: 2;
+	}
+
+	.his-val-company-hide {
+		height: 40rpx;
+		overflow: hidden;
+	}
+
+	.overview {
+		border-bottom: none;
 	}
 
 	.history {
@@ -394,65 +507,23 @@
 	}
 
 	.his-title {
-		font-size: 40rpx;
-		border-bottom: 4rpx solid #000000;
+		font-size: 34rpx;
+		border-bottom: 3rpx solid #000000;
 		color: #000000;
 		line-height: 2;
 		margin-bottom: 15rpx;
-	}
-
-	.his-row {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		flex-direction: row;
 		align-items: center;
 		align-content: center;
-		padding: 15rpx 0;
 	}
 
-	.his-label {
-		/* width: 25%; */
-		font-size: 36rpx;
+	.height-close {
+		transform: rotate(180deg);
 	}
 
-	.his-val {
-		flex: 1;
-		display: flex;
-		justify-content: space-around;
-		flex-direction: row;
-		align-items: stretch;
-	}
-
-	.his-input {
-		width: 100%;
-		font-size: 36rpx;
-		border-bottom: 1px solid #7f7f7f;
-		text-align: center;
-		color: #666;
-	}
-	.pick-val{
-		font-size: 36rpx;
-	}
-
-	.his-input-helf {
-		width: 45%;
-		text-align: center;
-	}
-	.overview{
-		text-align: left;
-	}
-
-	.submit-resume {
-		width: 100%;
-		background: #3a78ea;
-		color: #FFFFFF;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		align-content: center;
-		flex-direction: row;
-		line-height: 3;
-		font-size: 32rpx;
-		border-radius: 10rpx;
+	.autoHeight {
+		height: auto;
 	}
 </style>

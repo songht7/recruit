@@ -30,7 +30,7 @@ const store = new Vuex.Store({
 		isWeixin: false,
 		weChatAuthInfo: {},
 		reOauth: false,
-		testToken: "a9441b4727ef2d79d9c074c21bb9c32c4f215e07"
+		testToken: "54c3904c055a1fe57f0251f102c5fe62e624edc8"
 	},
 	mutations: {
 		switch_loading(state, status) {
